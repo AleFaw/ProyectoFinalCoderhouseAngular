@@ -1,66 +1,189 @@
-<div class="mat-row">
-    <div class="mat-column">
-        <div class="search-container">
-            <mat-form-field>
-                <input matInput #filterInput (input)="applyFilter()" placeholder="🔎 Buscar...">
-            </mat-form-field>
+<mat-tab-group #tabGroup>
+    <mat-tab label="Lista de estudiantes">
+        <br>
+        <div class="mat-row">
+            <div class="mat-column">
+                <div class="search-container">
+                    <mat-form-field>
+                        <input matInput #filterInput (input)="applyFilter()" placeholder="🔎 Buscar...">
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="mat-column">
+                <div class="filter-container">
+                    <mat-form-field>
+                        <mat-label>Seleccionar Año</mat-label>
+                        <mat-select #yearSelect (valueChange)="applyYearFilter()" [value]="selectedYear">
+                            <mat-option *ngFor="let year of years" [value]="year.value">{{year.viewValue}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
         </div>
-    </div>
-    <div class="mat-column">
-        <div class="filter-container">
-            <mat-form-field>
-                <mat-label>Seleccionar Año</mat-label>
-                <mat-select #yearSelect (valueChange)="applyYearFilter()" [value]="selectedYear">
-                    <mat-option *ngFor="let year of years" [value]="year.value">{{year.viewValue}}</mat-option>
-                </mat-select>
-            </mat-form-field>
+
+        <div class="table-container">
+            <table mat-table [dataSource]="filteredDataSource" class="mat-elevation-z8 demo-table">
+
+                <ng-container matColumnDef="demo-nombre">
+                    <th mat-header-cell *matHeaderCellDef> Nombre </th>
+                    <td mat-cell *matCellDef="let element"> {{element.Nombre}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="demo-apellido">
+                    <th mat-header-cell *matHeaderCellDef> Apellido </th>
+                    <td mat-cell *matCellDef="let element"> {{element.Apellido}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="demo-telefono">
+                    <th mat-header-cell *matHeaderCellDef> Telefono </th>
+                    <td mat-cell *matCellDef="let element"> {{element.Telefono}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="demo-correo">
+                    <th mat-header-cell *matHeaderCellDef> Correo </th>
+                    <td mat-cell *matCellDef="let element"> {{element.Correo}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="demo-acciones">
+                    <th mat-header-cell *matHeaderCellDef> Acciones </th>
+                    <td mat-cell *matCellDef="let element">
+                        <button mat-icon-button color="primary" (click)="editStudent(element)">
+                            <mat-icon>edit</mat-icon>
+                        </button>
+                        <button mat-icon-button color="warn" (click)="deleteStudent(element)">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
         </div>
-    </div>
-</div>
-
-<div class="table-container">
-    <table mat-table [dataSource]="filteredDataSource" class="mat-elevation-z8 demo-table">
-
-        <!-- Position Column -->
-        <ng-container matColumnDef="demo-nombre">
-            <th mat-header-cell *matHeaderCellDef> Nombre </th>
-            <td mat-cell *matCellDef="let element"> {{element.nombre}} </td>
-        </ng-container>
-
-        <!-- Name Column -->
-        <ng-container matColumnDef="demo-apellido">
-            <th mat-header-cell *matHeaderCellDef> Apellido </th>
-            <td mat-cell *matCellDef="let element"> {{element.apellido}} </td>
-        </ng-container>
-
-        <!-- Weight Column -->
-        <ng-container matColumnDef="demo-telefono">
-            <th mat-header-cell *matHeaderCellDef> Telefono </th>
-            <td mat-cell *matCellDef="let element"> {{element.telefono}} </td>
-        </ng-container>
-
-        <!-- Symbol Column -->
-        <ng-container matColumnDef="demo-correo">
-            <th mat-header-cell *matHeaderCellDef> Correo </th>
-            <td mat-cell *matCellDef="let element"> {{element.correo}} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="demo-anio">
-            <th mat-header-cell *matHeaderCellDef> Año </th>
-            <td mat-cell *matCellDef="let element"> {{element.anio}} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="demo-comision">
-            <th mat-header-cell *matHeaderCellDef> Comision </th>
-            <td mat-cell *matCellDef="let element"> {{element.comision}} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="demo-direccion">
-            <th mat-header-cell *matHeaderCellDef> Direccion </th>
-            <td mat-cell *matCellDef="let element"> {{element.direccion}} </td>
-        </ng-container>
-
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table>
-</div>
+    </mat-tab>
+    <mat-tab label="Modificar estudiante">
+        <div class="contenedor-agregar">
+            <form #modifyStudentForm="ngForm" (ngSubmit)="modifyStudent()" class="edit-student-form">
+                <div class="form-container">
+                    <div class="form-row">
+                        <mat-form-field class="form-field">
+                            <input matInput placeholder="Nombre" name="nombre" ngModel [value]="selectedStudentForEdit?.Nombre" required>
+                        </mat-form-field>
+                        <mat-form-field class="form-field">
+                            <input matInput placeholder="Apellido" name="apellido" ngModel [value]="selectedStudentForEdit?.Apellido" required>
+                        </mat-form-field>
+                        <mat-form-field class="form-field">
+                            <input matInput placeholder="Dni" name="dni" ngModel [value]="selectedStudentForEdit?.Dni" required>
+                        </mat-form-field>
+                    </div>
+                    <div class="form-row">
+                        <mat-form-field class="form-field">
+                            <input matInput placeholder="Dirección" name="direccion" ngModel [value]="selectedStudentForEdit?.Direccion">
+                        </mat-form-field>
+                        <mat-form-field class="form-field">
+                            <input matInput placeholder="Correo" name="correo" ngModel [value]="selectedStudentForEdit?.Correo">
+                        </mat-form-field>
+                        <mat-form-field class="form-field">
+                            <input matInput placeholder="Teléfono" name="telefono" ngModel [value]="selectedStudentForEdit?.Telefono">
+                        </mat-form-field>
+                    </div>
+                    <div class="form-row">
+                        <mat-form-field class="form-field">
+                            <input matInput placeholder="Usuario" name="usuario" ngModel [value]="selectedStudentForEdit?.Usuario" required>
+                        </mat-form-field>
+                        <mat-form-field class="form-field">
+                            <input matInput placeholder="Clave" name="clave" ngModel [value]="selectedStudentForEdit?.Clave" required>
+                        </mat-form-field>
+                    </div>
+                    <div class="form-row">
+                        <mat-form-field class="form-field">
+                            <mat-label>Rol</mat-label>
+                            <mat-select name="rol" ngModel [value]="selectedStudentForEdit?.Rol" required>
+                                <mat-option value="Estudiante">Estudiante</mat-option>
+                                <mat-option value="Otro">Otro</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-form-field class="form-field">
+                            <mat-label>Año</mat-label>
+                            <mat-select name="anio" ngModel [value]="selectedStudentForEdit?.Anio" required>
+                                <mat-option *ngFor="let year of yearsForAddStudent" [value]="year.value">
+                                    {{year.viewValue}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="form-row">
+                        <button mat-raised-button color="primary" type="submit">Aceptar</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </mat-tab>
+    
+    <mat-tab label="Agregar estudiante">
+        <br>
+        <div class="contenedor-agregar">
+            <br>
+            <div class="mat-row">
+                <form #addStudentForm="ngForm" (ngSubmit)="addStudent()" class="add-student-form">
+                    <div class="mat-column">
+                        <div class="form-container">
+                            <div class="form-row">
+                                <mat-form-field class="form-field">
+                                    <input matInput placeholder="Nombre" name="nombre" ngModel required>
+                                </mat-form-field>
+                                <mat-form-field class="form-field">
+                                    <input matInput placeholder="Apellido" name="apellido" ngModel required>
+                                </mat-form-field>
+                                <mat-form-field class="form-field">
+                                    <input matInput placeholder="DNI" name="dni" ngModel required>
+                                </mat-form-field>
+                            </div>
+                            <div class="form-row">
+                                <mat-form-field class="form-field">
+                                    <input matInput placeholder="Dirección" name="direccion" ngModel>
+                                </mat-form-field>
+                                <mat-form-field class="form-field">
+                                    <input matInput placeholder="Correo" name="correo" ngModel>
+                                </mat-form-field>
+                                <mat-form-field class="form-field">
+                                    <input matInput placeholder="Teléfono" name="telefono" ngModel>
+                                </mat-form-field>
+                            </div>
+                            <div class="form-row">
+                                <mat-form-field class="form-field">
+                                    <input matInput placeholder="Usuario" name="usuario" ngModel required>
+                                </mat-form-field>
+                                <mat-form-field class="form-field">
+                                    <input matInput placeholder="Clave" name="clave" ngModel required>
+                                </mat-form-field>
+                            </div>
+                            <div class="form-row">
+                                <mat-form-field class="form-field">
+                                    <mat-label>Rol</mat-label>
+                                    <mat-select name="rol" ngModel required>
+                                        <mat-option value="Estudiante">Estudiante</mat-option>
+                                        <mat-option value="Estudiante">Profesor</mat-option>
+                                        <mat-option value="Estudiante">Administrador</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                                <mat-form-field class="form-field">
+                                    <mat-label>Año</mat-label>
+                                    <mat-select name="anio" ngModel required>
+                                        <mat-option *ngFor="let year of yearsForAddStudent" [value]="year.value">
+                                            {{year.viewValue}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            <div class="form-row">
+                                <button mat-raised-button color="primary" type="submit">Agregar Estudiante</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </mat-tab>
+    
+</mat-tab-group>

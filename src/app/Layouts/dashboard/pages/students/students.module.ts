@@ -8,16 +8,16 @@ import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { BrowserModule } from '@angular/platform-browser';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-
-
-
-
-
+import { StudentFormComponent } from './components/student-form/student-form.component';
+import {MatSortModule} from '@angular/material/sort';
+import {MatTabsModule} from '@angular/material/tabs';
+import { MatButtonModule } from '@angular/material/button';
+import { MatGridListModule } from '@angular/material/grid-list';
 
 @NgModule({
   declarations: [
-    StudentsComponent
+    StudentsComponent,
+    StudentFormComponent
   ],
   imports: [
     CommonModule,
@@ -28,7 +28,10 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     MatSelectModule,
     BrowserModule,
     FormsModule,
-    MatCheckboxModule
+    MatSortModule,
+    MatTabsModule,
+    MatButtonModule,
+    MatGridListModule
   ],
   exports: [
     StudentsComponent
