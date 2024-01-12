@@ -36,6 +36,12 @@ export class StudentsComponent {
   selectedYear: number = 0;
   //Que estudiante se va a editar
   selectedStudentForEdit: any;
+  //ViewChild's
+  @ViewChild('filterInput') filterInput!: ElementRef;
+  @ViewChild(MatSelect) yearSelect!: MatSelect;
+  @ViewChild('addStudentForm') addStudentForm!: NgForm; 
+  @ViewChild('tabGroup') tabGroup!: MatTabGroup;
+  @ViewChild('modifyStudentForm') modifyStudentForm!: NgForm;
 
   //Valores del dropdown list.
   years = [
@@ -50,13 +56,7 @@ export class StudentsComponent {
 
   //Para agregar estudiantes
   yearsForAddStudent = this.years.filter(year => year.value !== 0);
-
-  @ViewChild('filterInput') filterInput!: ElementRef;
-  @ViewChild(MatSelect) yearSelect!: MatSelect;
-  @ViewChild('addStudentForm') addStudentForm!: NgForm; 
-  @ViewChild('tabGroup') tabGroup!: MatTabGroup;
-  @ViewChild('modifyStudentForm') modifyStudentForm!: NgForm;
-
+  
   //Filtro de lupa (buscar cualquier dato por escrito)
   applyFilter() {
     const filterValue = this.filterInput.nativeElement.value.toLowerCase().trim();
@@ -113,7 +113,7 @@ export class StudentsComponent {
   }
   
 
-  //Elimina el estudiante
+  //Elimina al estudiante
   deleteStudent(element: any): void {
     const index = this.filteredDataSource.findIndex(e => e === element);
 
@@ -126,7 +126,6 @@ export class StudentsComponent {
   
 
   modifyStudent() {
-    // Obtén los valores del formulario de modificación
     const formValues = this.modifyStudentForm.value;
   
     this.selectedStudentForEdit.Nombre = formValues.nombre;
