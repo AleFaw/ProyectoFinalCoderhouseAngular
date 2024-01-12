@@ -1,0 +1,66 @@
+<div class="mat-row">
+    <div class="mat-column">
+        <div class="search-container">
+            <mat-form-field>
+                <input matInput #filterInput (input)="applyFilter()" placeholder="🔎 Buscar...">
+            </mat-form-field>
+        </div>
+    </div>
+    <div class="mat-column">
+        <div class="filter-container">
+            <mat-form-field>
+                <mat-label>Seleccionar Año</mat-label>
+                <mat-select #yearSelect (valueChange)="applyYearFilter()" [value]="selectedYear">
+                    <mat-option *ngFor="let year of years" [value]="year.value">{{year.viewValue}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+    </div>
+</div>
+
+<div class="table-container">
+    <table mat-table [dataSource]="filteredDataSource" class="mat-elevation-z8 demo-table">
+
+        <!-- Position Column -->
+        <ng-container matColumnDef="demo-nombre">
+            <th mat-header-cell *matHeaderCellDef> Nombre </th>
+            <td mat-cell *matCellDef="let element"> {{element.nombre}} </td>
+        </ng-container>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="demo-apellido">
+            <th mat-header-cell *matHeaderCellDef> Apellido </th>
+            <td mat-cell *matCellDef="let element"> {{element.apellido}} </td>
+        </ng-container>
+
+        <!-- Weight Column -->
+        <ng-container matColumnDef="demo-telefono">
+            <th mat-header-cell *matHeaderCellDef> Telefono </th>
+            <td mat-cell *matCellDef="let element"> {{element.telefono}} </td>
+        </ng-container>
+
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="demo-correo">
+            <th mat-header-cell *matHeaderCellDef> Correo </th>
+            <td mat-cell *matCellDef="let element"> {{element.correo}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="demo-anio">
+            <th mat-header-cell *matHeaderCellDef> Año </th>
+            <td mat-cell *matCellDef="let element"> {{element.anio}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="demo-comision">
+            <th mat-header-cell *matHeaderCellDef> Comision </th>
+            <td mat-cell *matCellDef="let element"> {{element.comision}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="demo-direccion">
+            <th mat-header-cell *matHeaderCellDef> Direccion </th>
+            <td mat-cell *matCellDef="let element"> {{element.direccion}} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+</div>
