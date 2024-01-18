@@ -13,6 +13,8 @@ import {MatSortModule} from '@angular/material/sort';
 import {MatTabsModule} from '@angular/material/tabs';
 import { MatButtonModule } from '@angular/material/button';
 import { MatGridListModule } from '@angular/material/grid-list';
+import { SharedModule } from '../../../../shared/shared.module';
+
 
 @NgModule({
   declarations: [
@@ -31,7 +33,9 @@ import { MatGridListModule } from '@angular/material/grid-list';
     MatSortModule,
     MatTabsModule,
     MatButtonModule,
-    MatGridListModule
+    MatGridListModule,
+    SharedModule
+    
   ],
   exports: [
     StudentsComponent

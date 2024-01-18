@@ -1,3 +1,4 @@
+
 <mat-tab-group #tabGroup>
     <mat-tab label="Lista de estudiantes">
         <br>
@@ -25,13 +26,8 @@
             <table mat-table [dataSource]="filteredDataSource" class="mat-elevation-z8 demo-table">
 
                 <ng-container matColumnDef="demo-nombre">
-                    <th mat-header-cell *matHeaderCellDef> Nombre </th>
-                    <td mat-cell *matCellDef="let element"> {{element.Nombre}} </td>
-                </ng-container>
-
-                <ng-container matColumnDef="demo-apellido">
-                    <th mat-header-cell *matHeaderCellDef> Apellido </th>
-                    <td mat-cell *matCellDef="let element"> {{element.Apellido}} </td>
+                    <th mat-header-cell *matHeaderCellDef> Nombre y apellido</th>
+                    <td mat-cell *matCellDef="let element"> {{element | fullName}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="demo-telefono">
@@ -67,32 +63,40 @@
                 <div class="form-container">
                     <div class="form-row">
                         <mat-form-field class="form-field">
-                            <input matInput placeholder="Nombre" name="nombre" ngModel [value]="selectedStudentForEdit?.Nombre" required>
+                            <input matInput placeholder="Nombre" name="nombre" ngModel
+                                [value]="selectedStudentForEdit?.Nombre" required>
                         </mat-form-field>
                         <mat-form-field class="form-field">
-                            <input matInput placeholder="Apellido" name="apellido" ngModel [value]="selectedStudentForEdit?.Apellido" required>
+                            <input matInput placeholder="Apellido" name="apellido" ngModel
+                                [value]="selectedStudentForEdit?.Apellido" required>
                         </mat-form-field>
                         <mat-form-field class="form-field">
-                            <input matInput placeholder="Dni" name="dni" ngModel [value]="selectedStudentForEdit?.Dni" required>
-                        </mat-form-field>
-                    </div>
-                    <div class="form-row">
-                        <mat-form-field class="form-field">
-                            <input matInput placeholder="Dirección" name="direccion" ngModel [value]="selectedStudentForEdit?.Direccion">
-                        </mat-form-field>
-                        <mat-form-field class="form-field">
-                            <input matInput placeholder="Correo" name="correo" ngModel [value]="selectedStudentForEdit?.Correo">
-                        </mat-form-field>
-                        <mat-form-field class="form-field">
-                            <input matInput placeholder="Teléfono" name="telefono" ngModel [value]="selectedStudentForEdit?.Telefono">
+                            <input matInput placeholder="Dni" name="dni" ngModel [value]="selectedStudentForEdit?.Dni"
+                                required>
                         </mat-form-field>
                     </div>
                     <div class="form-row">
                         <mat-form-field class="form-field">
-                            <input matInput placeholder="Usuario" name="usuario" ngModel [value]="selectedStudentForEdit?.Usuario" required>
+                            <input matInput placeholder="Dirección" name="direccion" ngModel
+                                [value]="selectedStudentForEdit?.Direccion">
                         </mat-form-field>
                         <mat-form-field class="form-field">
-                            <input matInput placeholder="Clave" name="clave" ngModel [value]="selectedStudentForEdit?.Clave" required>
+                            <input matInput placeholder="Correo" name="correo" ngModel
+                                [value]="selectedStudentForEdit?.Correo">
+                        </mat-form-field>
+                        <mat-form-field class="form-field">
+                            <input matInput placeholder="Teléfono" name="telefono" ngModel
+                                [value]="selectedStudentForEdit?.Telefono">
+                        </mat-form-field>
+                    </div>
+                    <div class="form-row">
+                        <mat-form-field class="form-field">
+                            <input matInput placeholder="Usuario" name="usuario" ngModel
+                                [value]="selectedStudentForEdit?.Usuario" required>
+                        </mat-form-field>
+                        <mat-form-field class="form-field">
+                            <input matInput placeholder="Clave" name="clave" ngModel
+                                [value]="selectedStudentForEdit?.Clave" required>
                         </mat-form-field>
                     </div>
                     <div class="form-row">
@@ -119,7 +123,7 @@
             </form>
         </div>
     </mat-tab>
-    
+
     <mat-tab label="Agregar estudiante">
         <br>
         <div class="contenedor-agregar">
@@ -185,5 +189,4 @@
             </div>
         </div>
     </mat-tab>
-    
 </mat-tab-group>

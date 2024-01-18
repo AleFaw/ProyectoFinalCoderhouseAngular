@@ -18,7 +18,6 @@ const STUDENTS_DATA: Usuarios[] = [
   { IDEstudiante: 10, Nombre: 'Florencia', Apellido: 'Gimenez', Dni: '45678901', Telefono: '1123567890', Correo: 'florencia@example.com', Direccion: 'Calle J, Ciudad Q', Usuario: 'FlorenciaG', Clave: 'FlorenciaG', Rol: 'Estudiante', Anio: 6, Comision: '12vo' }
 ]
 
-
 @Component({
   selector: 'app-students',
   templateUrl: './students.component.html',
@@ -27,7 +26,7 @@ const STUDENTS_DATA: Usuarios[] = [
 
 export class StudentsComponent {
   //Columnas de la tabla
-  displayedColumns: string[] = ['demo-nombre', 'demo-apellido', 'demo-telefono', 'demo-correo', 'demo-acciones'];
+  displayedColumns: string[] = ['demo-nombre', 'demo-telefono', 'demo-correo', 'demo-acciones'];
   //Data source
   dataSource = STUDENTS_DATA;
   //Data source filtrada.
@@ -111,7 +110,6 @@ export class StudentsComponent {
       comision: selectedStudent.Comision || '',
     });
   }
-  
 
   //Elimina al estudiante
   deleteStudent(element: any): void {
@@ -122,8 +120,6 @@ export class StudentsComponent {
       this.filteredDataSource = [...this.filteredDataSource];
     }
   }
-
-  
 
   modifyStudent() {
     const formValues = this.modifyStudentForm.value;
@@ -145,7 +141,6 @@ export class StudentsComponent {
     this.tabGroup.selectedIndex = 0;
     this.applyYearFilter(); //Para que se actualice y se vea el nuevo estudiante.
   }
-  
 
   addStudent(): void {
     const formValues = this.addStudentForm.value;
