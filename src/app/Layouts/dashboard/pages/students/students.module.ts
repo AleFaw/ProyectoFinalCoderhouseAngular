@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms'; 
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'; 
 import { StudentsComponent } from './students.component';
 import {MatTableModule} from '@angular/material/table';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -34,8 +34,8 @@ import { SharedModule } from '../../../../shared/shared.module';
     MatTabsModule,
     MatButtonModule,
     MatGridListModule,
-    SharedModule
-    
+    SharedModule,
+    ReactiveFormsModule
   ],
   exports: [
     StudentsComponent

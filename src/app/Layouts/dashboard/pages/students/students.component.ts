@@ -1,8 +1,9 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
-import { NgForm } from '@angular/forms'; // Agrega esta importación
+import { NgForm } from '@angular/forms';
 import { MatSelect } from '@angular/material/select';
 import { Usuarios } from './Models';
 import { MatTabGroup } from '@angular/material/tabs';
+import { StudentsService } from '../../../../Core/services/students.service';
 
 //Simula como si fuera una db, la lista de los alumnos.
 const STUDENTS_DATA: Usuarios[] = [
@@ -89,25 +90,29 @@ export class StudentsComponent {
     }
   }
 
-  //Edita un estudiante
+  //Editar o agregar estudiante
+
+  handleFormSubmission(eventData: any): void {
+    const formValues = eventData.formValues;
+    const actionType = eventData.actionType;
+  
+    if (actionType === 'Agregar') {
+      this.addStudent(formValues);
+    } else if (actionType === 'Modificar') {
+      this.modifyStudent(formValues);
+    } else if (actionType === 'Cancelar'){
+      this.selectedStudentForEdit = null;
+      this.tabGroup.selectedIndex = 0;
+    }
+  }
+
+  constructor(private studentService : StudentsService) {}
+
   editStudent(selectedStudent: any) {
-    this.selectedStudentForEdit = selectedStudent;
-  
-    this.tabGroup.selectedIndex = 1; 
-  
-    //Valores por defecto del formulario.
-    this.modifyStudentForm.setValue({
-      nombre: selectedStudent.Nombre || '',
-      apellido: selectedStudent.Apellido || '',
-      dni: selectedStudent.Dni || '',
-      telefono: selectedStudent.Telefono || '',
-      correo: selectedStudent.Correo || '',
-      direccion: selectedStudent.Direccion || '',
-      usuario: selectedStudent.Usuario || '',
-      clave: selectedStudent.Clave || '',
-      rol: selectedStudent.Rol || '',
-      anio: selectedStudent.Anio || null,
-      comision: selectedStudent.Comision || '',
+    this.studentService.setSelectedStudent(selectedStudent);
+    this.studentService.selectedStudent$.subscribe(student => {
+      this.selectedStudentForEdit = student;
+      this.tabGroup.selectedIndex = 1;
     });
   }
 
@@ -121,31 +126,36 @@ export class StudentsComponent {
     }
   }
 
-  modifyStudent() {
-    const formValues = this.modifyStudentForm.value;
+  modifyStudent(formValues: any): void {
+    if (this.selectedStudentForEdit) {
+      this.selectedStudentForEdit.Nombre = formValues.nombre;
+      this.selectedStudentForEdit.Apellido = formValues.apellido;
+      this.selectedStudentForEdit.Dni = formValues.dni;
+      this.selectedStudentForEdit.Telefono = formValues.telefono;
+      this.selectedStudentForEdit.Correo = formValues.correo;
+      this.selectedStudentForEdit.Direccion = formValues.direccion;
+      this.selectedStudentForEdit.Usuario = formValues.usuario;
+      this.selectedStudentForEdit.Clave = formValues.clave;
+      this.selectedStudentForEdit.Rol = formValues.rol;
+      this.selectedStudentForEdit.Anio = formValues.anio;
+      this.selectedStudentForEdit.Comision = formValues.comision;
   
-    this.selectedStudentForEdit.Nombre = formValues.nombre;
-    this.selectedStudentForEdit.Apellido = formValues.apellido;
-    this.selectedStudentForEdit.Dni = formValues.dni;
-    this.selectedStudentForEdit.Telefono = formValues.telefono;
-    this.selectedStudentForEdit.Correo = formValues.correo;
-    this.selectedStudentForEdit.Direccion = formValues.direccion;
-    this.selectedStudentForEdit.Usuario = formValues.usuario;
-    this.selectedStudentForEdit.Clave = formValues.clave;
-    this.selectedStudentForEdit.Rol = formValues.rol;
-    this.selectedStudentForEdit.Anio = formValues.anio;
-    this.selectedStudentForEdit.Comision = formValues.comision;
-
-    this.selectedStudentForEdit = null;
+      const indexInDataSource = this.dataSource.findIndex(student => student.IDEstudiante === this.selectedStudentForEdit.IDEstudiante);
+      if (indexInDataSource !== -1) {
+        this.dataSource[indexInDataSource] = { ...this.selectedStudentForEdit };
+      }
   
-    this.tabGroup.selectedIndex = 0;
-    this.applyYearFilter(); //Para que se actualice y se vea el nuevo estudiante.
+      this.selectedStudentForEdit = null;
+  
+      this.applyYearFilter();
+      this.tabGroup.selectedIndex = 0;
+    }
   }
+  
 
-  addStudent(): void {
-    const formValues = this.addStudentForm.value;
+  addStudent(formValues: any): void {
     const newStudent: Usuarios = {
-      IDEstudiante: STUDENTS_DATA.length + 1, //Genero ID De manera "Automatica"
+      IDEstudiante: STUDENTS_DATA.length + 1,
       Nombre: formValues.nombre,
       Apellido: formValues.apellido,
       Dni: formValues.dni,
@@ -158,9 +168,10 @@ export class StudentsComponent {
       Anio: formValues.anio,
       Comision: formValues.comision
     };
+  
     this.filteredDataSource.push(newStudent);
     this.dataSource = [...this.filteredDataSource];
-    this.addStudentForm.reset();
-    this.applyYearFilter(); 
+    this.applyYearFilter();
   }
+  
 }

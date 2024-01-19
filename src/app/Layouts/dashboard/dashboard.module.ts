@@ -19,7 +19,7 @@ import { StudentsModule } from './pages/students/students.module';
     MatButtonModule,
     MatIconModule,
     MatToolbarModule,
-    StudentsModule
+    StudentsModule,
   ],
   exports: [DashboardComponent],
 })
