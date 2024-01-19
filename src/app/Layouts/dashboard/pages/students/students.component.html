@@ -1,6 +1,5 @@
-
 <mat-tab-group #tabGroup>
-    <mat-tab label="Lista de estudiantes">
+    <mat-tab appTamTitulos label="Lista de estudiantes">
         <br>
         <div class="mat-row">
             <div class="mat-column">
@@ -26,22 +25,22 @@
             <table mat-table [dataSource]="filteredDataSource" class="mat-elevation-z8 demo-table">
 
                 <ng-container matColumnDef="demo-nombre">
-                    <th mat-header-cell *matHeaderCellDef> Nombre y apellido</th>
+                    <th mat-header-cell *matHeaderCellDef appTamTitulos> Nombre y apellido</th>
                     <td mat-cell *matCellDef="let element"> {{element | fullName}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="demo-telefono">
-                    <th mat-header-cell *matHeaderCellDef> Telefono </th>
+                    <th mat-header-cell *matHeaderCellDef appTamTitulos> Telefono </th>
                     <td mat-cell *matCellDef="let element"> {{element.Telefono}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="demo-correo">
-                    <th mat-header-cell *matHeaderCellDef> Correo </th>
+                    <th mat-header-cell *matHeaderCellDef appTamTitulos> Correo </th>
                     <td mat-cell *matCellDef="let element"> {{element.Correo}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="demo-acciones">
-                    <th mat-header-cell *matHeaderCellDef> Acciones </th>
+                    <th mat-header-cell *matHeaderCellDef appTamTitulos> Acciones </th>
                     <td mat-cell *matCellDef="let element">
                         <button mat-icon-button color="primary" (click)="editStudent(element)">
                             <mat-icon>edit</mat-icon>
@@ -58,6 +57,6 @@
         </div>
     </mat-tab>
     <mat-tab label="Agregar o modificar estudiantes">
-        <app-student-form (formularioEnviado)="handleFormSubmission($event)"></app-student-form>
+            <app-student-form (formularioEnviado)="handleFormSubmission($event)"></app-student-form>
     </mat-tab>
 </mat-tab-group>

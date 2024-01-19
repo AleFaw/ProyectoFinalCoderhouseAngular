@@ -1,21 +1,28 @@
 <mat-drawer-container class="dashboard-container" autosize>
-
-
     <div class="dashboard-sidenav-contenido">
         <mat-toolbar style="background-color: rgb(25, 37, 162);">
             <button type="button" mat-icon-button style="color:rgb(255, 255, 255);" (click)="drawer.toggle()"
                 aria-label="Example icon button with a menu icon">
                 <mat-icon>menu</mat-icon>
             </button>
-            <!-- <img src="../../../img/logo.png" alt="Logo TecnoAula" style="float: left; margin-right: 10px; width:20px; height:20px;">-->
-            <span style="color:white;">TecnoAula</span>
+
+            <img src="../../../assets/img/Logo.ico" alt="Logo TecnoAula" class="logoImg">
+
+            <span class="logo">TecnoAula</span>
             <span class="example-spacer" style="color:white;"></span>
 
         </mat-toolbar>
     </div>
 
     <mat-drawer #drawer class="dashboard-sidenav" mode="side">
-        <p>Auto-resizing sidenav</p>
+        <div class="row">
+            <img src="../../../assets/img/Avatar.png" class="avatar">
+            <p style="color:white; font-size: 20px; text-align: center;">Bienvenido TuUsuario!!</p>
+        </div>
+        <div class="row" style="margin-top: 50px; display: flex; align-items: center;">
+            <img src="../../../assets/img/ABMEstudiantes.png" alt="Logo" width="50" height="50" style="vertical-align: middle;">
+            <span class="opciones" style="color: white; font-size: 20px; margin-left: 10px; vertical-align: middle; margin-top: 25px;">ABM Estudiantes</span>
+        </div>
     </mat-drawer>
     <div class="p-5">
         <app-students></app-students>

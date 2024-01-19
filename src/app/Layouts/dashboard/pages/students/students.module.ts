@@ -14,6 +14,8 @@ import {MatTabsModule} from '@angular/material/tabs';
 import { MatButtonModule } from '@angular/material/button';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { SharedModule } from '../../../../shared/shared.module';
+import { TamTitulosDirective } from '../../../../shared/tam-titulos.directive';
+
 
 
 @NgModule({

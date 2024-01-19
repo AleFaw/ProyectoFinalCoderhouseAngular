@@ -9,7 +9,7 @@ import { StudentsService } from './Core/services/students.service';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
     BrowserModule,
