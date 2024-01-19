@@ -4,6 +4,7 @@ import { MatSelect } from '@angular/material/select';
 import { Usuarios } from './Models';
 import { MatTabGroup } from '@angular/material/tabs';
 import { StudentsService } from '../../../../Core/services/students.service';
+import Swal from 'sweetalert2';
 
 //Simula como si fuera una db, la lista de los alumnos.
 const STUDENTS_DATA: Usuarios[] = [
@@ -120,10 +121,29 @@ export class StudentsComponent {
   deleteStudent(element: any): void {
     const index = this.filteredDataSource.findIndex(e => e === element);
 
-    if (index !== -1) {
-      this.filteredDataSource.splice(index, 1);
-      this.filteredDataSource = [...this.filteredDataSource];
-    }
+    Swal.fire({
+      title: "¿Seguro deseas eliminarlo?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      cancelButtonText: "Cancelar",
+      confirmButtonText: "Eliminar"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        if (index !== -1) {
+          this.filteredDataSource.splice(index, 1);
+          this.filteredDataSource = [...this.filteredDataSource];
+        }
+        Swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          title: 'Estudiante eliminado con exito!!',
+          showConfirmButton: false,
+          timer: 1500
+        })
+      }
+    });    
   }
 
   modifyStudent(formValues: any): void {
