@@ -7,14 +7,13 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
-import { BrowserModule } from '@angular/platform-browser';
 import { StudentFormComponent } from './components/student-form/student-form.component';
 import {MatSortModule} from '@angular/material/sort';
 import {MatTabsModule} from '@angular/material/tabs';
 import { MatButtonModule } from '@angular/material/button';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { SharedModule } from '../../../../shared/shared.module';
-import { TamTitulosDirective } from '../../../../shared/tam-titulos.directive';
+import { StudentsRoutingModule } from './students-routing.module';
 
 
 
@@ -30,14 +29,14 @@ import { TamTitulosDirective } from '../../../../shared/tam-titulos.directive';
     MatInputModule,
     MatIconModule,
     MatSelectModule,
-    BrowserModule,
     FormsModule,
     MatSortModule,
     MatTabsModule,
     MatButtonModule,
     MatGridListModule,
     SharedModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    StudentsRoutingModule
   ],
   exports: [
     StudentsComponent

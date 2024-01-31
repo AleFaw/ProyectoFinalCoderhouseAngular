@@ -20,11 +20,35 @@
             <p style="color:white; font-size: 20px; text-align: center;">Bienvenido TuUsuario!!</p>
         </div>
         <div class="row" style="margin-top: 50px; display: flex; align-items: center;">
-            <img src="../../../assets/img/ABMEstudiantes.png" alt="Logo" width="50" height="50" style="vertical-align: middle;">
-            <span class="opciones" style="color: white; font-size: 20px; margin-left: 10px; vertical-align: middle; margin-top: 25px;">ABM Estudiantes</span>
+            <mat-nav-list>
+                <a #homeLink="routerLinkActive" routerLinkActive [activated]="homeLink.isActive" routerLink="" mat-list-item style="font-size: 18px; color: white; width:100vh;">
+                    <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="home" style="color: white;"></mat-icon>
+                    <span style="color: white; font-size:25px; margin-left:7px;">Inicio</span>
+                </a>
+                
+                <a #usersLink="routerLinkActive" routerLinkActive [activated]="usersLink.isActive" routerLink="estudiantes" mat-list-item style="font-size: 18px; color: white; width:100vh;">
+                    <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="person" style="color: white;"></mat-icon>
+                    <span style="color: white; font-size:25px; margin-left:7px;">Alumnos</span>
+                </a>
+
+                <a #cursosLink="routerLinkActive" routerLinkActive [activated]="cursosLink.isActive" routerLink="cursos" mat-list-item style="font-size: 18px; color: white; width:100vh;">
+                    <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="school" style="color: white;"></mat-icon>
+                    <span style="color: white; font-size:25px; margin-left:7px;">Cursos</span>
+                </a>
+
+                <a #inscripcionesLink="routerLinkActive" routerLinkActive [activated]="inscripcionesLink.isActive" routerLink="inscripciones" mat-list-item style="font-size: 18px; color: white; width:100vh;">
+                    <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="create" style="color: white;"></mat-icon>
+                    <span style="color: white; font-size:25px; margin-left:7px;">Inscripciones</span>
+                </a>
+
+                <a mat-list-item (click)="logout()" style="font-size: 18px; color: white; width:100vh; margin-top:30px;">
+                    <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="exit_to_app" style="color: white;"></mat-icon>
+                    <span style="color: white; font-size:25px; margin-left:7px;">Cerrar sesión</span>
+                </a>
+            </mat-nav-list>
         </div>
     </mat-drawer>
     <div class="p-5">
-        <app-students></app-students>
+        <router-outlet></router-outlet>
     </div>
 </mat-drawer-container>
