@@ -1,1 +1,53 @@
-<p>subjects works!</p>
+
+<div clas="flex justify-content-end mb-3" style="background-color: rgba(0, 0, 255, 0.8); width: 100px; border-radius: 6%;" >
+  <button (click)="onCreate()" mat-button>
+    <mat-icon style="color:white;">add</mat-icon>
+   <p style="font-size: 20px;color:white;">Nuevo</p>
+  </button>
+</div>
+
+<mat-tab-group>
+  <mat-tab label="Lista de cursos">  
+    <div class="table-container">
+      <table mat-table class="mat-elevation-z8" [dataSource]="cursos">
+    
+        
+        <ng-container matColumnDef="Nombre">
+          <th mat-header-cell *matHeaderCellDef> Nombre </th>
+          <td mat-cell *matCellDef="let element"> {{element.Nombre}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="FechaInicio">
+          <th mat-header-cell *matHeaderCellDef> Comienzo </th>
+          <td mat-cell *matCellDef="let element"> {{element.FechaInicio | date: "dd/MM/YYY" }} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="FechaFin">
+          <th mat-header-cell *matHeaderCellDef> Finalización </th>
+          <td mat-cell *matCellDef="let element"> {{element.FechaFin | date: "dd/MM/YYY" }} </td>
+        </ng-container>
+    
+        <ng-container matColumnDef="Costo">
+          <th mat-header-cell *matHeaderCellDef> Costo </th>
+          <td mat-cell *matCellDef="let element"> {{element.Costo | currency}} </td>
+        </ng-container>
+    
+        <ng-container matColumnDef="Acciones">
+          <th mat-header-cell *matHeaderCellDef> Acciones </th>
+          <td mat-cell *matCellDef="let element">
+            <button (click)="onEdit(element)" mat-icon-button color="primary">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button (click)="onDelete(element.IDCurso)" mat-icon-button color="warn">
+              <mat-icon primar>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+    
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    </div>
+  </mat-tab>
+</mat-tab-group>
+

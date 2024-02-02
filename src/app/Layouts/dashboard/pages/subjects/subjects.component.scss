@@ -1,0 +1,10 @@
+/* Estilos personalizados para los botones de edición y eliminación */
+.mat-icon-button.primary button {
+    background-color: transparent; /* Elimina el color de fondo */
+    color: blue; /* Cambia el color del icono a azul */
+  }
+  
+  .mat-icon-button.warn button {
+    background-color: transparent; /* Elimina el color de fondo */
+    color: red; /* Cambia el color del icono a rojo */
+  }

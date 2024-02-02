@@ -1,0 +1,26 @@
+
+
+<h1 mat-dialog-title>Cursos</h1>
+<div mat-dialog-content>
+    <form [formGroup]="inscriptionForm" class="grid formgrid">
+
+        <div class="col-4">
+            <mat-form-field class="w-full">
+                <mat-label>Nombre del curso</mat-label>
+                <input formControlName="NombreCurso" matInput>
+            </mat-form-field>
+        </div>
+        <div class="col-4">
+            <mat-form-field class="w-full">
+                <mat-label>Nombre del alumno</mat-label>
+                <input formControlName="NombreAlumno" matInput>
+            </mat-form-field>
+        </div>
+        
+    
+    </form>
+</div>
+<div mat-dialog-actions>
+    <button mat-button (click)="guardar()" >Aceptar</button>
+    <button mat-button mat-dialog-close="">Cancelar</button>
+</div>
