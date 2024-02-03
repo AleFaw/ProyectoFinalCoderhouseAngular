@@ -1,19 +1,16 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DashboardComponent } from './dashboard.component';
-import {MatSidenavModule} from '@angular/material/sidenav';
-import {MatButtonModule} from '@angular/material/button';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import {MatToolbarModule} from '@angular/material/toolbar';
+import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterModule } from '@angular/router';
-import { HomeComponent } from './pages/home/home.component';
-import {MatListModule} from '@angular/material/list';
-
-
+import { MatListModule } from '@angular/material/list';
 
 @NgModule({
   declarations: [
-    DashboardComponent,
+    DashboardComponent
   ],
   imports: [
     CommonModule,
@@ -22,7 +19,6 @@ import {MatListModule} from '@angular/material/list';
     MatIconModule,
     MatToolbarModule,
     MatListModule,
-    RouterModule,
     RouterModule.forChild([
       {
         path: 'estudiantes',
@@ -30,7 +26,7 @@ import {MatListModule} from '@angular/material/list';
       },
       {
         path: 'inicio',
-        component: HomeComponent,
+        loadChildren: () => import('./pages/home/home.module').then((m) => m.HomeModule),
       },
       {
         path:'cursos',
@@ -40,6 +36,7 @@ import {MatListModule} from '@angular/material/list';
         path: 'inscripciones',
         loadChildren: () => import('./pages/inscriptions/inscriptions.module').then((m) => m.InscriptionsModule),
       },
+      { path: "", redirectTo: "inicio", pathMatch: "full" }, // Corregir aquí
     ]),
   ],
   exports: [DashboardComponent],
