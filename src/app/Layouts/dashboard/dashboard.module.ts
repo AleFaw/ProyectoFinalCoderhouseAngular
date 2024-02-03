@@ -30,7 +30,7 @@ import {MatListModule} from '@angular/material/list';
       },
       {
         path: 'inicio',
-        component: HomeComponent,
+        loadChildren: () => import('./pages/home/home.module').then((m) => m.HomeModule),
       },
       {
         path:'cursos',
