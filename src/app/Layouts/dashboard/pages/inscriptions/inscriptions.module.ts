@@ -17,6 +17,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatSelectModule } from '@angular/material/select';
 import { SubjectsService } from '../subjects/subjects.service';
 import { StudentsService } from '../students/students.service';
+import { SharedModule } from '../../../../shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { StudentsService } from '../students/students.service';
     MatDatepickerModule,
     MatDialogModule,
     MatSelectModule,
+    SharedModule,
   ],
   providers: [
     InscriptionsService,

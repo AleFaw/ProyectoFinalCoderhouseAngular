@@ -1,6 +1,8 @@
 import { Injectable } from "@angular/core";
-import { of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { Inscripciones } from './Models';
+import { Usuarios } from "../students/Models";
+import { StudentsService } from '../students/students.service';
 
 let inscrip: Inscripciones[] = [
     {
@@ -30,11 +32,12 @@ let inscrip: Inscripciones[] = [
         Modalidad: 'Virtual',
         Turno: 'Noche',
     }
-   
 ]
 
 @Injectable()
 export class InscriptionsService {
+    constructor(private studentsService: StudentsService) {}
+
     getInscripciones(){
         return of(inscrip);
     }
@@ -44,8 +47,12 @@ export class InscriptionsService {
         return this.getInscripciones();
     }
 
-    addInscipciones(data: Inscripciones){
-        inscrip = [...inscrip, {...data, IDInscripcion: inscrip.length + 1}];
+    addInscipciones(data: Inscripciones, dataA: Usuarios[]){
+        let alumno: Usuarios | undefined = this.obtenerAlumno(data.NombreAlumno, dataA);
+        if (alumno) {
+            data.IDAlumno = alumno.IDUsuario;
+            inscrip = [...inscrip, {...data, IDInscripcion: inscrip.length + 1}];
+        }
         return this.getInscripciones();
     }
 
@@ -53,4 +60,9 @@ export class InscriptionsService {
         inscrip = inscrip.map((el) => el.IDInscripcion === id ? {...el,...data} : el);
         return this.getInscripciones();
     }
+
+    obtenerAlumno(nombreCompleto: string, dataA: Usuarios[]): Usuarios | undefined {
+        const alumno = dataA.find(alumno => `${alumno.Nombre} ${alumno.Apellido}` === nombreCompleto);
+        return alumno;
+    } 
 }

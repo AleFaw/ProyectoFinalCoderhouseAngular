@@ -4,6 +4,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Inscripciones } from '../../Models';
 import Swal from 'sweetalert2';
 import { SubjectsService } from '../../../subjects/subjects.service';
+import { StudentsService } from '../../../students/students.service';
 
 @Component({
   selector: 'app-inscription-form',
@@ -13,12 +14,14 @@ import { SubjectsService } from '../../../subjects/subjects.service';
 export class InscriptionFormComponent implements OnInit {
   inscriptionForm: FormGroup;
   cursos: any[] = []; // Define una variable para almacenar la lista de cursos
+  usuarios: any[] = [];
 
   constructor(
     private fb: FormBuilder,
     private dialogRef: MatDialogRef<InscriptionFormComponent>,
-    @Inject(MAT_DIALOG_DATA) private editingInscription: Inscripciones,
-    private subjectsService: SubjectsService
+    @Inject(MAT_DIALOG_DATA) private data: { inscripcion: Inscripciones, view: boolean, edit: boolean },
+    private subjectsService: SubjectsService,
+    private studentsService: StudentsService,
   ) {
     this.inscriptionForm = this.fb.group({
       NombreCurso: ['', [Validators.required, Validators.pattern('^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ -]+$')]],
@@ -27,17 +30,26 @@ export class InscriptionFormComponent implements OnInit {
       Turno: [{ value: '', disabled: true }, [Validators.required, Validators.pattern('^[a-zA-ZáéíóúÁÉÍÓÚüÜ ]+$')]],
     });
 
-
-    if (editingInscription) {
-      this.inscriptionForm.patchValue(editingInscription);
+    if (this.data.view) {
+      this.inscriptionForm.patchValue(this.data.inscripcion);
+      this.inscriptionForm.get('NombreCurso')?.disable();
+      this.inscriptionForm.get('NombreAlumno')?.disable();
+    } 
+    if(this.data.edit) {
+      this.inscriptionForm.patchValue(this.data.inscripcion);
     }
   }
 
+  
   ngOnInit(): void {
     // No necesitas definir el formulario de nuevo aquí
     this.subjectsService.getCursos().subscribe(cursos => {
       this.cursos = cursos;
     });
+
+    this.studentsService.getUsuarios().subscribe(usuarios => {
+      this.usuarios = usuarios;
+    })
 
     // Verificación de nulidad para inscriptionForm
     this.inscriptionForm?.get('NombreCurso')?.valueChanges.subscribe(nombreCurso => {
@@ -86,4 +98,5 @@ export class InscriptionFormComponent implements OnInit {
       }
     });
   }
+  
 }

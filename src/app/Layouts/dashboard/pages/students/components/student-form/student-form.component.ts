@@ -1,7 +1,11 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component , Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { StudentsService } from '../../students.service';
 import Swal from 'sweetalert2';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { Usuarios } from '../../Models';
+import { InscriptionsService } from '../../../inscriptions/inscriptions.service';
+import { Inscripciones } from '../../../inscriptions/Models';
 
 
 @Component({
@@ -12,132 +16,129 @@ import Swal from 'sweetalert2';
 
 export class StudentFormComponent {
 
-  years = [
-    { value: 0, viewValue: 'SIN ASIGNAR' },
-    { value: 1, viewValue: '1' },
-    { value: 2, viewValue: '2' },
-    { value: 3, viewValue: '3' },
-    { value: 4, viewValue: '4' },
-    { value: 5, viewValue: '5' },
-    { value: 6, viewValue: '6' },
-  ];
+  userForm: FormGroup;
+  inscripciones: any[] = [];
+  inscripcionesAlumno: any[] = [];
+  viewMode: boolean;
 
-  @Output() formularioEnviado: EventEmitter<any> = new EventEmitter();
-  userFormGroup: FormGroup;
-  selectedStudent: any;
-  isEditarVisible: boolean = false;
-  isAgregarVisible: boolean = true;
-  isCancelarVisible: boolean = false;
+  constructor(private fb: FormBuilder,
+    private dialogRef: MatDialogRef<StudentFormComponent>,
+    @Inject(MAT_DIALOG_DATA) private data: { usuario: Usuarios, view: boolean, edit: boolean },
+    private studentsService: StudentsService,
+    private inscriptionsService: InscriptionsService){
+      this.viewMode = this.data.view;
+      this.userForm = this.fb.group({
+        Nombre: ['', [Validators.required, Validators.pattern('^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ -]+$')]],
+        Apellido: ['', [Validators.required, Validators.pattern('^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ -]+$')]],
+        Telefono: ['', [Validators.required, Validators.pattern(/^\d{10}$/)]], 
+        Correo: ['', [Validators.required, Validators.email]], 
+        Dni: ['', [Validators.required, Validators.pattern(/^\d{8}$/)]], 
+        Direccion: ['', [Validators.required]],
+        Usuario: ['',[Validators.required]],
+        Clave: ['',[Validators.required]],
+        Rol: ['',[Validators.required]],
 
-  constructor(private formBuilder: FormBuilder, private studentService : StudentsService) {
-    this.userFormGroup = this.formBuilder.group({
-      nombre: this.formBuilder.control('', Validators.required),
-      apellido: this.formBuilder.control('', Validators.required),
-      dni: this.formBuilder.control('', [Validators.required, Validators.pattern(/^[0-9]{8}$/)]),
-      direccion: this.formBuilder.control('', Validators.required),
-      correo: this.formBuilder.control('', [Validators.required, Validators.email]),
-      telefono: this.formBuilder.control('', [Validators.required, Validators.pattern(/^[0-9]+$/)]),
-      usuario: this.formBuilder.control('', Validators.required),
-      clave: this.formBuilder.control('', Validators.required),
-      rol: this.formBuilder.control('', Validators.required),
-      anio: this.formBuilder.control('', Validators.required)
-    })
-  }
+      })
 
-  
+      console.log("Usuario:", this.data.usuario);
+      if (this.data.edit) {
+        this.userForm.patchValue(this.data.usuario);
+      }
+      if(this.data.view){
+        this.userForm.patchValue(this.data.usuario);
+        this.userForm.get('Nombre')?.disable();
+        this.userForm.get('Apellido')?.disable();
+        this.userForm.get('Telefono')?.disable();
+        this.userForm.get('Correo')?.disable();
+        this.userForm.get('Dni')?.disable();
+        this.userForm.get('Direccion')?.disable();
+        this.userForm.get('Usuario')?.disable();
+        this.userForm.get('Clave')?.disable();
+        this.userForm.get('Rol')?.disable();
+      }
+    }
 
-  private populateForm(): void {
-    if (this.selectedStudent) {
-      this.isEditarVisible = true;
-      this.isCancelarVisible = true;
-      this.isAgregarVisible = false;
-      this.userFormGroup.patchValue({
-        nombre: this.selectedStudent.Nombre || '',
-        apellido: this.selectedStudent.Apellido || '',
-        dni: this.selectedStudent.Dni || '',
-        direccion: this.selectedStudent.Direccion || '',
-        correo: this.selectedStudent.Correo || '',
-        telefono: this.selectedStudent.Telefono || '',
-        usuario: this.selectedStudent.Usuario || '',
-        clave: this.selectedStudent.Clave || '',
-        rol: this.selectedStudent.Rol || '',
-        anio: this.selectedStudent.Anio || null
+    ngOnInit(): void {
+      this.obtenerCursos();
+    }
+    
+    obtenerCursos(): void {
+      // Obtener datos de usuarios
+      this.studentsService.getUsuarios().subscribe({
+        next: (usuarios: Usuarios[]) => {
+          // Utiliza los datos de usuarios aquí según sea necesario
+    
+          // Luego, obtén los datos de inscripciones
+          this.inscriptionsService.getInscripciones().subscribe({
+            next: (inscripciones: any[]) => {
+              // Utiliza los datos de inscripciones aquí según sea necesario
+              // Por ejemplo, puedes asignarlos a una propiedad de clase para usarlos en tu plantilla
+              this.inscripciones = inscripciones;
+    
+              // Busca el usuario actual dentro de los usuarios obtenidos
+              const usuarioActual = usuarios.find(user => user.IDUsuario === this.data.usuario.IDUsuario);
+              if (usuarioActual) {
+                // Si se encuentra el usuario, llama a la función para comprobar los cursos
+                this.studentsService.comprobarCursos(usuarioActual, inscripciones).subscribe({
+                  next: (inscripcionesAlumno: any[]) => {
+                    // Asigna los cursos del alumno a la propiedad correspondiente
+                    this.inscripcionesAlumno = inscripcionesAlumno;
+                  },
+                  error: (error) => {
+                    console.error('Error al comprobar cursos del alumno:', error);
+                  }
+                });
+              }
+            },
+            error: (error) => {
+              console.error('Error al obtener las inscripciones:', error);
+            }
+          });
+        },
+        error: (error) => {
+          console.error('Error al obtener usuarios:', error);
+        }
       });
     }
-  }
-  
+    
+    
 
-  onSubmit(event: Event, actionType: string): void {
-    event.preventDefault();
-    if (this.userFormGroup.invalid) {
-
-      if (this.userFormGroup.get('correo')?.hasError('email')) {
-        Swal.fire({
-          icon: 'error',
-          title: 'Ocurrió un error...',
-          text: '¡Ingrese un formato de correo electrónico válido!'
-        });
-      }else if(this.userFormGroup.get('telefono')?.hasError('pattern')) {
-        Swal.fire({
-          icon: 'error',
-          title: 'Ocurrió un error...',
-          text: '¡Ingrese un formato de teléfono válido!'
-        });
-      }else if(this.userFormGroup.get('dni')?.hasError('pattern')) {
-        Swal.fire({
-          icon: 'error',
-          title: 'Ocurrió un error...',
-          text: '¡Ingrese un formato de DNI válido!'
-        });
-      }else{
-        Swal.fire({
-          icon: 'error',
-          title: 'Ocurrió un error...',
-          text: '¡No puede dejar campos vacíos!'
-        });
+    guardar(): void {
+      if (this.userForm.invalid) {
+        this.markFormGroupTouched(this.userForm);
+        this.showErrorMessage('Por favor, complete todos los campos correctamente.');
+        return;
       }
-    } else {
-      const formValues = this.userFormGroup.value;
-      this.formularioEnviado.emit({ formValues, actionType });
-      if(actionType === 'Agregar')
-      {
-        Swal.fire({
-          position: 'top-end',
-          icon: 'success',
-          title: 'Estudiante agregado con exito!!',
-          showConfirmButton: false,
-          timer: 1500
-        }).then(() => {
-          this.formularioEnviado.emit(this.userFormGroup.value);
-          this.userFormGroup.reset();
-          this.userFormGroup.markAsPristine();
-          this.userFormGroup.markAsUntouched();
-        });
-      }else if(actionType === 'Modificar'){
-        Swal.fire({
-          position: 'top-end',
-          icon: 'success',
-          title: 'Estudiante modificado con exito!!',
-          showConfirmButton: false,
-          timer: 1500
-        }).then(() => {
-          this.formularioEnviado.emit(this.userFormGroup.value);
-          this.userFormGroup.reset();
-          this.userFormGroup.markAsPristine();
-          this.userFormGroup.markAsUntouched();
-          this.isEditarVisible = false;
-          this.isCancelarVisible = false;
-          this.isAgregarVisible = true;
-        });
-      }else if(actionType === 'Cancelar'){
-        this.formularioEnviado.emit();
-        this.isEditarVisible = false;
-        this.isCancelarVisible = false;
-        this.isAgregarVisible = true;
-        this.userFormGroup.reset();
-        this.userFormGroup.markAsPristine();
-        this.userFormGroup.markAsUntouched();
-      }
+      this.dialogRef.close(this.userForm.value);
     }
-  }
+
+    showErrorMessage(message: string) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: message,
+      });
+    }
+  
+    markFormGroupTouched(formGroup: FormGroup) {
+      Object.values(formGroup.controls).forEach(control => {
+        control.markAsTouched();
+        if (control instanceof FormGroup) {
+          this.markFormGroupTouched(control);
+        }
+      });
+    }
+
+    onDelete(id: number) {
+      this.inscriptionsService.deleteInscripcionesByID(id).subscribe({
+        next: () => {
+          // Después de eliminar la inscripción, actualiza la lista de inscripciones del alumno
+          this.obtenerCursos();
+        },
+        error: (error) => {
+          console.error('Error al eliminar la inscripción:', error);
+        }
+      });
+    }
+    
 }

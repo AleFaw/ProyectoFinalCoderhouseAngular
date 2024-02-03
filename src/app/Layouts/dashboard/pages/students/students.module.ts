@@ -15,6 +15,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDialogModule } from '@angular/material/dialog';
 import { StudentsService } from './students.service';
 import { SharedModule } from '../../../../shared/shared.module';
+import { InscriptionsService } from '../inscriptions/inscriptions.service';
 
 
 
@@ -40,6 +41,7 @@ import { SharedModule } from '../../../../shared/shared.module';
   ],
   providers: [
     StudentsService,
+    InscriptionsService,
   ]
 })
 export class StudentsModule { }

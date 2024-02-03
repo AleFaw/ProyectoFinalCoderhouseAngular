@@ -9,6 +9,4 @@ export interface Usuarios{
     Usuario: string;
     Clave: string;
     Rol: string;
-    Anio: number;
-    Comision: string;
 }
