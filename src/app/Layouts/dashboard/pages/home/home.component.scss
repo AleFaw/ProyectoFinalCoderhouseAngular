@@ -29,3 +29,24 @@
   height: 200px;
   width: auto;
   }
+
+  
+  .titulo {
+    background-color: rgb(25, 37, 162);
+    height: 40px;
+    width: 100%;
+    border-radius: 15px;
+  }
+  
+  .titulo mat-card-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+  }
+  
+  .titulo mat-card-title {
+    font-size: 36px;
+    color: white;
+  }
+  
