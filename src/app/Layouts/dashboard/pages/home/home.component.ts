@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { HomeZoomComponent } from './home-zoom/home-zoom.component';
+import { ImagenesZoomComponent } from './imagenes-zoom/imagenes-zoom.component';
 
 @Component({
   selector: 'app-home',
@@ -14,26 +14,28 @@ export class HomeComponent {
   openImageModal(num: number): void {
     if(num===1)
     {
-      this.dialog.open(HomeZoomComponent, {
+      this.dialog.open(ImagenesZoomComponent, {
         data: {
           imageUrl: '../../../../../assets/img/ABMUsuarios.png'
         }
       });
     }
     else if(num===2){
-      this.dialog.open(HomeZoomComponent, {
+      this.dialog.open(ImagenesZoomComponent, {
         data: {
           imageUrl: '../../../../../assets/img/userView.png'
         }
       });
     }
     else if(num===3){
-      this.dialog.open(HomeZoomComponent, {
+      this.dialog.open(ImagenesZoomComponent, {
         data: {
           imageUrl: '../../../../../assets/img/subjectView.png'
         }
       });
     }
-    
+    else{
+      
+    }
   }
 }
