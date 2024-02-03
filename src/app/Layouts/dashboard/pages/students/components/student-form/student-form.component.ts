@@ -130,13 +130,37 @@ export class StudentFormComponent {
     }
 
     onDelete(id: number) {
-      this.inscriptionsService.deleteInscripcionesByID(id).subscribe({
-        next: () => {
-          // Después de eliminar la inscripción, actualiza la lista de inscripciones del alumno
-          this.obtenerCursos();
-        },
-        error: (error) => {
-          console.error('Error al eliminar la inscripción:', error);
+      Swal.fire({
+        title: '¿Está seguro?',
+        text: 'Esta acción no se puede revertir',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí, borrar',
+        cancelButtonText: 'Cancelar'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.inscriptionsService.deleteInscripcionesByID(id).subscribe({
+            next: () => {
+              // Después de eliminar la inscripción, actualiza la lista de inscripciones del alumno
+              this.obtenerCursos();
+              Swal.fire({
+                icon: 'success',
+                title: 'Baja exitosa',
+                showConfirmButton: false,
+                timer: 1500
+              });
+            },
+            error: (error) => {
+              console.error('Error al eliminar la inscripción:', error);
+              Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Hubo un error al eliminar la inscripción.'
+              });
+            }
+          });
         }
       });
     }

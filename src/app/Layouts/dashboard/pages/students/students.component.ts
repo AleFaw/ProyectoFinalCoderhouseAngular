@@ -3,7 +3,7 @@ import { StudentsService } from './students.service';
 import { Usuarios } from './Models';
 import { MatDialog } from '@angular/material/dialog';
 import { StudentFormComponent } from './components/student-form/student-form.component';
-
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-students',
@@ -12,41 +12,41 @@ import { StudentFormComponent } from './components/student-form/student-form.com
 })
 
 export class StudentsComponent {
-  
+
   displayedColumns: string[] = ['Nombre', 'Telefono', 'Correo', 'Rol', 'Acciones'];
 
   usuarios: Usuarios[] = []
 
-  constructor(private studentsService: StudentsService, public dialog: MatDialog){
+  constructor(private studentsService: StudentsService, public dialog: MatDialog) {
     this.studentsService.getUsuarios().subscribe({
-      next: (us) =>{
+      next: (us) => {
         this.usuarios = us;
       }
     })
   }
 
   onCreate(): void {
-    this.dialog.open(StudentFormComponent,{
-      data: {View: false, edit: false}
-    }).afterClosed().subscribe({
-        next: (result) => {
-          if (result) {
-            this.studentsService.addUsuarios(result).subscribe({
-              next: (us) => {
-                this.usuarios = us;
-              },
-            });
-          }
-        }
-      });
-  }
-
-  onEdit(usuario: Usuarios){
     this.dialog.open(StudentFormComponent, {
-      data: {usuario: usuario, view: false, edit: true}
+      data: { View: false, edit: false }
     }).afterClosed().subscribe({
       next: (result) => {
-        if(result){
+        if (result) {
+          this.studentsService.addUsuarios(result).subscribe({
+            next: (us) => {
+              this.usuarios = us;
+            },
+          });
+        }
+      }
+    });
+  }
+
+  onEdit(usuario: Usuarios) {
+    this.dialog.open(StudentFormComponent, {
+      data: { usuario: usuario, view: false, edit: true }
+    }).afterClosed().subscribe({
+      next: (result) => {
+        if (result) {
           this.studentsService.updateUsuarios(usuario.IDUsuario, result).subscribe({
             next: (us) => (this.usuarios = us),
           })
@@ -55,17 +55,47 @@ export class StudentsComponent {
     })
   }
 
-  onView(usuario: Usuarios){
+  onView(usuario: Usuarios) {
     this.dialog.open(StudentFormComponent, {
-      data: {usuario: usuario, view: true, edit: false}
+      data: { usuario: usuario, view: true, edit: false }
     })
   }
 
+
+
   onDelete(id: number) {
-    this.studentsService.deleteUsuariosByID(id).subscribe({
-      next: (us) => {
-        this.usuarios = us;
+    Swal.fire({
+      title: '¿Está seguro?',
+      text: 'Esta acción no se puede revertir',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, borrar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.studentsService.deleteUsuariosByID(id).subscribe({
+          next: (us) => {
+            this.usuarios = us;
+            Swal.fire({
+              icon: 'success',
+              title: 'Borrado exitoso',
+              showConfirmButton: false,
+              timer: 1500
+            });
+          },
+          error: (error) => {
+            console.error('Error al borrar:', error);
+            Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: 'Hubo un error al borrar el usuario.'
+            });
+          }
+        });
       }
-    })
+    });
   }
+
 }

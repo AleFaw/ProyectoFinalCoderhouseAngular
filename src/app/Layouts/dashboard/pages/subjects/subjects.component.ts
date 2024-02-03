@@ -3,6 +3,7 @@ import { SubjectsService } from './subjects.service';
 import { Cursos } from './Models';
 import { MatDialog } from '@angular/material/dialog';
 import { SubjectFormComponent } from './components/subject-form/subject-form.component';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-subjects',
@@ -53,11 +54,38 @@ export class SubjectsComponent {
   }
 
   onDelete(id: number) {
-    this.subjectsService.deleteSubjectByID(id).subscribe({
-      next: (cursos) => {
-        this.cursos = cursos;
+    Swal.fire({
+      title: '¿Está seguro?',
+      text: 'Esta acción no se puede revertir',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, borrar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.subjectsService.deleteSubjectByID(id).subscribe({
+          next: (cursos) => {
+            this.cursos = cursos;
+            Swal.fire({
+              icon: 'success',
+              title: 'Borrado exitoso',
+              showConfirmButton: false,
+              timer: 1500
+            });
+          },
+          error: (error) => {
+            console.error('Error al borrar:', error);
+            Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: 'Hubo un error al borrar el curso.'
+            });
+          }
+        });
       }
-    })
+    });
   }
 
   onView(cursos: Cursos){

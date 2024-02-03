@@ -1,0 +1,31 @@
+
+
+.welcome-container {
+    margin-top: 50px;
+    text-align: center;
+  }
+  
+  .logo {
+    width: 150px; /* Ajusta el tamaño del logo según sea necesario */
+    margin-bottom: 20px;
+  }
+
+  .titulo{
+    background-color: rgb(25, 37, 162);
+    height: 40px;
+    width: 100%;
+    border-radius: 15px;
+  }
+  
+  .titulo-texto{
+    text-align: center;
+    font-size: 36px;
+  }
+
+  .img{
+    display: block;
+  margin-left: auto;
+  margin-right: auto;
+  height: 200px;
+  width: auto;
+  }

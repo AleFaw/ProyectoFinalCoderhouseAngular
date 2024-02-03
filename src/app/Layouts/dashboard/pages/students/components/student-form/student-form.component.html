@@ -6,53 +6,87 @@
       <mat-form-field class="w-full">
         <mat-label>Nombre</mat-label>
         <input formControlName="Nombre" matInput>
+        <mat-error *ngIf="userForm.get('Nombre')?.invalid && (userForm.get('Nombre')?.dirty || userForm.get('Nombre')?.touched)" style="color: red;">
+          <span *ngIf="userForm.get('Nombre')?.hasError('required')">El nombre es requerido.</span>
+          <span *ngIf="userForm.get('Nombre')?.hasError('pattern')">Solo se permiten letras y espacios.</span>
+        </mat-error>
       </mat-form-field>
     </div>
+    
     <div class="col-4">
       <mat-form-field class="w-full">
         <mat-label>Apellido</mat-label>
         <input formControlName="Apellido" matInput>
+        <mat-error *ngIf="userForm.get('Apellido')?.invalid && (userForm.get('Apellido')?.dirty || userForm.get('Apellido')?.touched)" style="color: red;">
+          <span *ngIf="userForm.get('Apellido')?.hasError('required')">El apellido es requerido.</span>
+          <span *ngIf="userForm.get('Apellido')?.hasError('pattern')">Solo se permiten letras y espacios.</span>
+        </mat-error>
       </mat-form-field>
     </div>
+    
     <div class="col-4">
       <mat-form-field class="w-full">
         <mat-label>Dni</mat-label>
         <input formControlName="Dni" matInput>
+        <mat-error *ngIf="userForm.get('Dni')?.invalid && (userForm.get('Dni')?.dirty || userForm.get('Dni')?.touched)" style="color: red;">
+          <span *ngIf="userForm.get('Dni')?.hasError('required')">El DNI es requerido.</span>
+          <span *ngIf="userForm.get('Dni')?.hasError('pattern')">El DNI debe tener 8 dígitos numéricos.</span>
+        </mat-error>
       </mat-form-field>
     </div>
-
+    
     <div class="col-4">
       <mat-form-field class="w-full">
         <mat-label>Telefono</mat-label>
         <input formControlName="Telefono" matInput>
+        <mat-error *ngIf="userForm.get('Telefono')?.invalid && (userForm.get('Telefono')?.dirty || userForm.get('Telefono')?.touched)" style="color: red;">
+          <span *ngIf="userForm.get('Telefono')?.hasError('required')">El teléfono es requerido.</span>
+          <span *ngIf="userForm.get('Telefono')?.hasError('pattern')">El teléfono debe tener 10 dígitos numéricos.</span>
+        </mat-error>
       </mat-form-field>
     </div>
+    
     <div class="col-4">
       <mat-form-field class="w-full">
         <mat-label>Correo</mat-label>
         <input formControlName="Correo" matInput>
+        <mat-error *ngIf="userForm.get('Correo')?.invalid && (userForm.get('Correo')?.dirty || userForm.get('Correo')?.touched)" style="color: red;">
+          <span *ngIf="userForm.get('Correo')?.hasError('required')">El correo es requerido.</span>
+          <span *ngIf="userForm.get('Correo')?.hasError('email')">Ingrese un correo válido.</span>
+        </mat-error>
       </mat-form-field>
     </div>
+    
     <div class="col-4">
       <mat-form-field class="w-full">
         <mat-label>Direccion</mat-label>
         <input formControlName="Direccion" matInput>
+        <mat-error *ngIf="userForm.get('Direccion')?.invalid && (userForm.get('Direccion')?.dirty || userForm.get('Direccion')?.touched)" style="color: red;">
+          <span *ngIf="userForm.get('Direccion')?.hasError('required')">La dirección es requerida.</span>
+        </mat-error>
       </mat-form-field>
     </div>
-
+    
     <div class="col-4">
       <mat-form-field class="w-full">
         <mat-label>Usuario</mat-label>
         <input formControlName="Usuario" matInput>
+        <mat-error *ngIf="userForm.get('Usuario')?.invalid && (userForm.get('Usuario')?.dirty || userForm.get('Usuario')?.touched)" style="color: red;">
+          <span *ngIf="userForm.get('Usuario')?.hasError('required')">El usuario es requerido.</span>
+        </mat-error>
       </mat-form-field>
     </div>
+    
     <div class="col-4">
       <mat-form-field class="w-full">
         <mat-label>Clave</mat-label>
         <input formControlName="Clave" matInput>
+        <mat-error *ngIf="userForm.get('Clave')?.invalid && (userForm.get('Clave')?.dirty || userForm.get('Clave')?.touched)" style="color: red;">
+          <span *ngIf="userForm.get('Clave')?.hasError('required')">La clave es requerida.</span>
+        </mat-error>
       </mat-form-field>
     </div>
-
+    
     <div class="col-4">
       <mat-form-field class="w-full">
         <mat-label>Rol</mat-label>
@@ -61,8 +95,12 @@
           <mat-option value="Docente">Docente</mat-option>
           <mat-option value="Administrador">Administrador</mat-option>
         </mat-select>
+        <mat-error *ngIf="userForm.get('Rol')?.invalid && (userForm.get('Rol')?.dirty || userForm.get('Rol')?.touched)" style="color: red;">
+          <span>Seleccione un rol.</span>
+        </mat-error>
       </mat-form-field>
     </div>
+    
 
     <div *ngIf="viewMode" class="col-12">
       <h3>Cursos Disponibles</h3>
