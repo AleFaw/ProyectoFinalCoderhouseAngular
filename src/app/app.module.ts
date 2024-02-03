@@ -5,7 +5,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DashboardModule } from './Layouts/dashboard/dashboard.module';
-import { StudentsService } from './Core/services/students.service';
 import { MatNativeDateModule } from '@angular/material/core';
 
 
@@ -20,7 +19,7 @@ import { MatNativeDateModule } from '@angular/material/core';
     DashboardModule,
     MatNativeDateModule
   ],
-  providers: [StudentsService],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -28,7 +28,7 @@ export class InscriptionsComponent {
     this.dialog.open(InscriptionFormComponent).afterClosed().subscribe({
         next: (result) => {
           if (result) {
-            this.inscriptionsService.addInscription(result).subscribe({
+            this.inscriptionsService.addInscipciones(result).subscribe({
               next: (Inscripcion) => {
                 this.inscrip = Inscripcion;
               },
@@ -44,7 +44,7 @@ export class InscriptionsComponent {
     }).afterClosed().subscribe({
       next: (result) => {
         if(result){
-          this.inscriptionsService.updateInscription(inscripcion.IDInscripcion, result).subscribe({
+          this.inscriptionsService.updateInscripciones(inscripcion.IDInscripcion, result).subscribe({
             next: (inscripciones) => (this.inscrip = inscripciones),
           })
         }
@@ -53,7 +53,7 @@ export class InscriptionsComponent {
   }
 
   onDelete(id: number) {
-    this.inscriptionsService.deleteInscriptionByID(id).subscribe({
+    this.inscriptionsService.deleteInscripcionesByID(id).subscribe({
       next: (inscripcion) => {
         this.inscrip = inscripcion;
       }

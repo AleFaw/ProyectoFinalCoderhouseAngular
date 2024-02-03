@@ -15,16 +15,16 @@ export class SubjectFormComponent {
 
   constructor(private fb: FormBuilder, private dialogRef: MatDialogRef<SubjectFormComponent>, @Inject(MAT_DIALOG_DATA) private editingSubject?: Cursos,) {
     this.subjectForm = this.fb.group({
-      Nombre: ['', [Validators.required, Validators.pattern('^[a-zA-ZáéíóúÁÉÍÓÚüÜ ]+$')]], // Permitir letras, espacios y caracteres acentuados
+      Nombre: ['', [Validators.required, Validators.pattern('^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ -]+$')]], // Permitir letras, espacios y caracteres acentuados
       FechaInicio: ['', [Validators.required]],
       FechaFin: [''],
-      Docente: ['', [Validators.required, Validators.pattern('^[a-zA-ZáéíóúÁÉÍÓÚüÜ ]+$')]], // Permitir letras, espacios y caracteres acentuados
+      Docente: ['', [Validators.required, Validators.pattern('^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ -]+$')]], // Permitir letras, espacios y caracteres acentuados
       Capacidad: ['', [Validators.required, Validators.pattern(/^[0-9]+(\.[0-9]{1,2})?$/), Validators.min(1)]],
       Inscriptos: ['', [Validators.pattern(/^[0-9]+(\.[0-9]{1,2})?$/), Validators.min(1)]],
-      Descripcion: ['', [Validators.required, Validators.pattern('^[a-zA-ZáéíóúÁÉÍÓÚüÜ ]+$')]], // Permitir letras, espacios y caracteres acentuados
+      Descripcion: ['', [Validators.required, Validators.pattern('^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ -]+$')]], // Permitir letras, espacios y caracteres acentuados
       Costo: ['', [Validators.required, Validators.pattern(/^[0-9]+(\.[0-9]{1,2})?$/), Validators.min(0.01)]],
-      Modalidad: ['', [Validators.required, Validators.pattern('^[a-zA-ZáéíóúÁÉÍÓÚüÜ ]+$')]], // Permitir letras, espacios y caracteres acentuados
-      Turno: ['', [Validators.pattern('^[a-zA-ZáéíóúÁÉÍÓÚüÜ ]+$')]], // Permitir letras, espacios y caracteres acentuados
+      Modalidad: ['', [Validators.required, Validators.pattern('^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ -]+$')]], // Permitir letras, espacios y caracteres acentuados
+      Turno: ['', [Validators.required, Validators.pattern('^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ -]+$')]], // Permitir letras, espacios y caracteres acentuados
     });
 
     if (editingSubject) {

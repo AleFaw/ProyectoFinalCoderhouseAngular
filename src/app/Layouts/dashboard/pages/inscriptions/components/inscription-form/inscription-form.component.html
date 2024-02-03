@@ -1,26 +1,37 @@
-
-
-<h1 mat-dialog-title>Cursos</h1>
+<h1 mat-dialog-title>Inscripciones</h1>
 <div mat-dialog-content>
     <form [formGroup]="inscriptionForm" class="grid formgrid">
+      <div class="col-6">
+        <mat-form-field class="w-full">
+          <mat-label>Nombre del curso</mat-label>
+          <mat-select formControlName="NombreCurso">
+            <mat-option *ngFor="let curso of cursos" [value]="curso.Nombre">{{ curso.Nombre }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="col-6">
+        <mat-form-field class="w-full">
+          <mat-label>Nombre del alumno</mat-label>
+          <input formControlName="NombreAlumno" matInput>
+        </mat-form-field>
+      </div>
 
-        <div class="col-4">
-            <mat-form-field class="w-full">
-                <mat-label>Nombre del curso</mat-label>
-                <input formControlName="NombreCurso" matInput>
-            </mat-form-field>
-        </div>
-        <div class="col-4">
-            <mat-form-field class="w-full">
-                <mat-label>Nombre del alumno</mat-label>
-                <input formControlName="NombreAlumno" matInput>
-            </mat-form-field>
-        </div>
-        
-    
+      <div class="col-6">
+        <mat-form-field class="w-full">
+          <mat-label>Modalidad</mat-label>
+          <input formControlName="Modalidad" matInput [disabled]="true">
+        </mat-form-field>
+      </div>
+
+      <div class="col-6">
+        <mat-form-field class="w-full">
+          <mat-label>Turno</mat-label>
+          <input formControlName="Turno" matInput [disabled]="true">
+        </mat-form-field>
+      </div>
     </form>
 </div>
 <div mat-dialog-actions>
-    <button mat-button (click)="guardar()" >Aceptar</button>
+    <button mat-button (click)="guardar()">Aceptar</button>
     <button mat-button mat-dialog-close="">Cancelar</button>
 </div>

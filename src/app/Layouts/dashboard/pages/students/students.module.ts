@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms'; 
+import { ReactiveFormsModule } from '@angular/forms'; 
 import { StudentsComponent } from './students.component';
 import {MatTableModule} from '@angular/material/table';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -8,12 +8,13 @@ import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { StudentFormComponent } from './components/student-form/student-form.component';
-import {MatSortModule} from '@angular/material/sort';
 import {MatTabsModule} from '@angular/material/tabs';
 import { MatButtonModule } from '@angular/material/button';
-import { MatGridListModule } from '@angular/material/grid-list';
-import { SharedModule } from '../../../../shared/shared.module';
 import { StudentsRoutingModule } from './students-routing.module';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatDialogModule } from '@angular/material/dialog';
+import { StudentsService } from './students.service';
+import { SharedModule } from '../../../../shared/shared.module';
 
 
 
@@ -24,22 +25,21 @@ import { StudentsRoutingModule } from './students-routing.module';
   ],
   imports: [
     CommonModule,
+    StudentsRoutingModule,
     MatTableModule,
+    MatIconModule,
+    MatButtonModule,
+    MatTabsModule,
     MatFormFieldModule,
     MatInputModule,
-    MatIconModule,
-    MatSelectModule,
-    FormsModule,
-    MatSortModule,
-    MatTabsModule,
-    MatButtonModule,
-    MatGridListModule,
-    SharedModule,
     ReactiveFormsModule,
-    StudentsRoutingModule
+    MatDatepickerModule,
+    MatDialogModule,
+    MatSelectModule,
+    SharedModule,
   ],
-  exports: [
-    StudentsComponent
+  providers: [
+    StudentsService,
   ]
 })
 export class StudentsModule { }

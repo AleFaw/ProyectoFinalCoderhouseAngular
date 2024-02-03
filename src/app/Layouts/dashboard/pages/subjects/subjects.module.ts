@@ -15,6 +15,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSelectModule } from '@angular/material/select';
+import { SharedModule } from '../../../../shared/shared.module';
 
 
 @NgModule({
@@ -35,6 +36,7 @@ import { MatSelectModule } from '@angular/material/select';
     MatDatepickerModule,
     MatDialogModule,
     MatSelectModule,
+    SharedModule
   ],
   providers: [
     SubjectsService,

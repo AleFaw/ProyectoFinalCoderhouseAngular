@@ -1,5 +1,5 @@
 export interface Usuarios{
-    IDEstudiante: number;
+    IDUsuario: number;
     Nombre: string;
     Apellido: string;
     Dni: string;

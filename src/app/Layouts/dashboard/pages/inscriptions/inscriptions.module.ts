@@ -15,6 +15,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSelectModule } from '@angular/material/select';
+import { SubjectsService } from '../subjects/subjects.service';
+import { StudentsService } from '../students/students.service';
 
 @NgModule({
   declarations: [
@@ -25,7 +27,6 @@ import { MatSelectModule } from '@angular/material/select';
     CommonModule,
     InscriptionsRoutingModule,
     MatTableModule,
-    MatButtonModule,
     MatIconModule,
     MatButtonModule,
     MatTabsModule,
@@ -38,6 +39,8 @@ import { MatSelectModule } from '@angular/material/select';
   ],
   providers: [
     InscriptionsService,
+    SubjectsService,
+    StudentsService,
   ],
 })
 export class InscriptionsModule { }

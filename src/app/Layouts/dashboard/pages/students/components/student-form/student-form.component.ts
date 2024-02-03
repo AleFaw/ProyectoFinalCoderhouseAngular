@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { StudentsService } from '../../../../../../Core/services/students.service';
+import { StudentsService } from '../../students.service';
 import Swal from 'sweetalert2';
 
 
@@ -44,12 +44,7 @@ export class StudentFormComponent {
     })
   }
 
-  ngOnInit() {
-    this.studentService.selectedStudent$.subscribe(student => {
-      this.selectedStudent = student;
-      this.populateForm();
-    });
-  }
+  
 
   private populateForm(): void {
     if (this.selectedStudent) {

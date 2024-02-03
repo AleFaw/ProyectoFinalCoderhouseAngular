@@ -6,7 +6,7 @@ import { Cursos } from './Models';
 let cursos: Cursos[] = [
     {
         IDCurso: 1,
-        Nombre: 'Angular',
+        Nombre: 'Angular - Virtual - Noche',
         FechaInicio: new Date(),
         FechaFin: new Date(),
         Docente: 'Josué Oraya',
@@ -17,6 +17,20 @@ let cursos: Cursos[] = [
         Estado: true,
         Descripcion: 'Introduccion al desarrollo en angular',
         Turno: "Noche",
+    },
+    {
+        IDCurso: 2,
+        Nombre: 'Data Analytics - Hibrido - Tarde',
+        FechaInicio: new Date(),
+        FechaFin: new Date(),
+        Docente: 'Daniela Rattia',
+        Costo: 168000,
+        Modalidad: 'Hibrido',
+        Capacidad: 30,
+        Inscriptos: 3,
+        Estado: true,
+        Descripcion: 'Introduccion al data analytics',
+        Turno: "Tarde",
     },
 ]
 

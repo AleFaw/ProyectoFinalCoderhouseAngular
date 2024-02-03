@@ -1,24 +1,9 @@
-import { Component, ViewChild, ElementRef } from '@angular/core';
-import { NgForm } from '@angular/forms';
-import { MatSelect } from '@angular/material/select';
+import { Component } from '@angular/core';
+import { StudentsService } from './students.service';
 import { Usuarios } from './Models';
-import { MatTabGroup } from '@angular/material/tabs';
-import { StudentsService } from '../../../../Core/services/students.service';
-import Swal from 'sweetalert2';
+import { MatDialog } from '@angular/material/dialog';
+import { StudentFormComponent } from './components/student-form/student-form.component';
 
-//Simula como si fuera una db, la lista de los alumnos.
-const STUDENTS_DATA: Usuarios[] = [
-  { IDEstudiante: 1, Nombre: 'Juan', Apellido: "Perez", Dni: "28456789", Telefono: "1124251645", Correo: 'juan@example.com', Direccion: 'Calle A, Ciudad X', Usuario: "JuanP", Clave: "JuanP", Rol: "Estudiante", Anio: 6, Comision: '12vo' },
-  { IDEstudiante: 2, Nombre: 'Maria', Apellido: 'Gomez', Dni: '36587412', Telefono: '1123456789', Correo: 'maria@example.com', Direccion: 'Calle B, Ciudad Y', Usuario: 'MariaG', Clave: 'MariaG', Rol: 'Estudiante', Anio: 5, Comision: '10mo' },
-  { IDEstudiante: 3, Nombre: 'Carlos', Apellido: 'Rodriguez', Dni: '19876543', Telefono: '1123454321', Correo: 'carlos@example.com', Direccion: 'Calle C, Ciudad Z', Usuario: 'CarlosR', Clave: 'CarlosR', Rol: 'Estudiante', Anio: 4, Comision: '8vo' },
-  { IDEstudiante: 4, Nombre: 'Ana', Apellido: 'Lopez', Dni: '54321678', Telefono: '1123549876', Correo: 'ana@example.com', Direccion: 'Calle D, Ciudad W', Usuario: 'AnaL', Clave: 'AnaL', Rol: 'Estudiante', Anio: 6, Comision: '12vo' },
-  { IDEstudiante: 5, Nombre: 'Luis', Apellido: 'Martinez', Dni: '87654321', Telefono: '1123678901', Correo: 'luis@example.com', Direccion: 'Calle E, Ciudad V', Usuario: 'LuisM', Clave: 'LuisM', Rol: 'Estudiante', Anio: 3, Comision: '7mo' },
-  { IDEstudiante: 6, Nombre: 'Laura', Apellido: 'Fernandez', Dni: '65432187', Telefono: '1123908765', Correo: 'laura@example.com', Direccion: 'Calle F, Ciudad U', Usuario: 'LauraF', Clave: 'LauraF', Rol: 'Estudiante', Anio: 5, Comision: '10mo' },
-  { IDEstudiante: 7, Nombre: 'Gabriel', Apellido: 'Diaz', Dni: '12348765', Telefono: '1123123456', Correo: 'gabriel@example.com', Direccion: 'Calle G, Ciudad T', Usuario: 'GabrielD', Clave: 'GabrielD', Rol: 'Estudiante', Anio: 2, Comision: '6to' },
-  { IDEstudiante: 8, Nombre: 'Valeria', Apellido: 'Sanchez', Dni: '87651234', Telefono: '1123345678', Correo: 'valeria@example.com', Direccion: 'Calle H, Ciudad S', Usuario: 'ValeriaS', Clave: 'ValeriaS', Rol: 'Estudiante', Anio: 4, Comision: '8vo' },
-  { IDEstudiante: 9, Nombre: 'Ricardo', Apellido: 'Torres', Dni: '23456789', Telefono: '1123456789', Correo: 'ricardo@example.com', Direccion: 'Calle I, Ciudad R', Usuario: 'RicardoT', Clave: 'RicardoT', Rol: 'Estudiante', Anio: 3, Comision: '7mo' },
-  { IDEstudiante: 10, Nombre: 'Florencia', Apellido: 'Gimenez', Dni: '45678901', Telefono: '1123567890', Correo: 'florencia@example.com', Direccion: 'Calle J, Ciudad Q', Usuario: 'FlorenciaG', Clave: 'FlorenciaG', Rol: 'Estudiante', Anio: 6, Comision: '12vo' }
-]
 
 @Component({
   selector: 'app-students',
@@ -27,10 +12,56 @@ const STUDENTS_DATA: Usuarios[] = [
 })
 
 export class StudentsComponent {
-  //Columnas de la tabla
-  displayedColumns: string[] = ['demo-nombre', 'demo-telefono', 'demo-correo', 'demo-acciones'];
-  //Data source
-  dataSource = STUDENTS_DATA;
+  
+  displayedColumns: string[] = ['Nombre', 'Telefono', 'Correo', 'Rol', 'Acciones'];
+
+  usuarios: Usuarios[] = []
+
+  constructor(private studentsService: StudentsService, public dialog: MatDialog){
+    this.studentsService.getUsuarios().subscribe({
+      next: (us) =>{
+        this.usuarios = us;
+      }
+    })
+  }
+
+  onCreate(): void {
+    this.dialog.open(StudentFormComponent).afterClosed().subscribe({
+        next: (result) => {
+          if (result) {
+            this.studentsService.addUsuarios(result).subscribe({
+              next: (us) => {
+                this.usuarios = us;
+              },
+            });
+          }
+        }
+      });
+  }
+
+  onEdit(usuario: Usuarios){
+    this.dialog.open(StudentFormComponent, {
+      data: usuario
+    }).afterClosed().subscribe({
+      next: (result) => {
+        if(result){
+          this.studentsService.updateUsuarios(usuario.IDUsuario, result).subscribe({
+            next: (us) => (this.usuarios = us),
+          })
+        }
+      }
+    })
+  }
+
+  onDelete(id: number) {
+    this.studentsService.deleteUsuariosByID(id).subscribe({
+      next: (us) => {
+        this.usuarios = us;
+      }
+    })
+  }
+
+  /*
   //Data source filtrada.
   filteredDataSource = [...STUDENTS_DATA];
   //Inicialización del año del dropdown list
@@ -193,5 +224,5 @@ export class StudentsComponent {
     this.dataSource = [...this.filteredDataSource];
     this.applyYearFilter();
   }
-  
+  */
 }

@@ -6,7 +6,7 @@ let inscrip: Inscripciones[] = [
     {
         IDInscripcion: 1,
         IDCurso: 1,
-        NombreCurso: 'Angular',
+        NombreCurso: 'Angular - Virtual - Noche',
         IDAlumno: 1,
         NombreAlumno: 'Juan Perez',
         Modalidad: 'Virtual',
@@ -15,7 +15,7 @@ let inscrip: Inscripciones[] = [
     {
         IDInscripcion: 2,
         IDCurso: 1,
-        NombreCurso: 'Angular',
+        NombreCurso: 'Angular - Virtual - Noche',
         IDAlumno: 5,
         NombreAlumno: 'Luis Martinez',
         Modalidad: 'Virtual',
@@ -24,7 +24,7 @@ let inscrip: Inscripciones[] = [
     {
         IDInscripcion: 3,
         IDCurso: 1,
-        NombreCurso: 'Angular',
+        NombreCurso: 'Data Analytics - Hibrido - Tarde',
         IDAlumno: 9,
         NombreAlumno: 'Ricardo Torres',
         Modalidad: 'Virtual',
@@ -39,17 +39,17 @@ export class InscriptionsService {
         return of(inscrip);
     }
 
-    deleteInscriptionByID(id: number){
+    deleteInscripcionesByID(id: number){
         inscrip = inscrip.filter((el) => el.IDInscripcion != id);
         return this.getInscripciones();
     }
 
-    addInscription(data: Inscripciones){
-        inscrip = [...inscrip, {...data, IDInscripcion: inscrip.length + 1, IDAlumno: 1, IDCurso: 1, Modalidad:'Hola', Turno:'hola',}];
+    addInscipciones(data: Inscripciones){
+        inscrip = [...inscrip, {...data, IDInscripcion: inscrip.length + 1}];
         return this.getInscripciones();
     }
 
-    updateInscription(id: number, data: Inscripciones){
+    updateInscripciones(id: number, data: Inscripciones){
         inscrip = inscrip.map((el) => el.IDInscripcion === id ? {...el,...data} : el);
         return this.getInscripciones();
     }

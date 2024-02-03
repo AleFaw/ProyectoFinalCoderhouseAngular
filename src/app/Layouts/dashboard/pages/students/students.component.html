@@ -1,62 +1,51 @@
+<div clas="flex justify-content-end mb-3" style="background-color: rgba(0, 0, 255, 0.8); width: 100px; border-radius: 6%;" >
+    <button (click)="onCreate()" mat-button>
+      <mat-icon style="color:white;">add</mat-icon>
+     <p style="font-size: 20px;color:white;">Nuevo</p>
+    </button>
+  </div>
+
 <mat-tab-group #tabGroup>
-    <mat-tab appTamTitulos label="Lista de estudiantes">
-        <br>
-        <div class="mat-row">
-            <div class="mat-column">
-                <div class="search-container">
-                    <mat-form-field>
-                        <input matInput #filterInput (input)="applyFilter()" placeholder="🔎 Buscar...">
-                    </mat-form-field>
-                </div>
-            </div>
-            <div class="mat-column">
-                <div class="filter-container">
-                    <mat-form-field>
-                        <mat-label>Seleccionar Año</mat-label>
-                        <mat-select #yearSelect (valueChange)="applyYearFilter()" [value]="selectedYear">
-                            <mat-option *ngFor="let year of years" [value]="year.value">{{year.viewValue}}</mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                </div>
-            </div>
-        </div>
-
+    <mat-tab  label="Lista de usuarios">
         <div class="table-container">
-            <table mat-table [dataSource]="filteredDataSource" class="mat-elevation-z8 demo-table">
-
-                <ng-container matColumnDef="demo-nombre">
-                    <th mat-header-cell *matHeaderCellDef appTamTitulos> Nombre y apellido</th>
-                    <td mat-cell *matCellDef="let element"> {{element | fullName}} </td>
-                </ng-container>
-
-                <ng-container matColumnDef="demo-telefono">
-                    <th mat-header-cell *matHeaderCellDef appTamTitulos> Telefono </th>
-                    <td mat-cell *matCellDef="let element"> {{element.Telefono}} </td>
-                </ng-container>
-
-                <ng-container matColumnDef="demo-correo">
-                    <th mat-header-cell *matHeaderCellDef appTamTitulos> Correo </th>
-                    <td mat-cell *matCellDef="let element"> {{element.Correo}} </td>
-                </ng-container>
-
-                <ng-container matColumnDef="demo-acciones">
-                    <th mat-header-cell *matHeaderCellDef appTamTitulos> Acciones </th>
-                    <td mat-cell *matCellDef="let element">
-                        <button mat-icon-button color="primary" (click)="editStudent(element)">
-                            <mat-icon>edit</mat-icon>
-                        </button>
-                        <button mat-icon-button color="warn" (click)="deleteStudent(element)">
-                            <mat-icon>delete</mat-icon>
-                        </button>
-                    </td>
-                </ng-container>
-
-                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            <table mat-table class="mat-elevation-z8" [dataSource]="usuarios">
+          
+              
+              <ng-container  matColumnDef="Nombre">
+                <th mat-header-cell *matHeaderCellDef> Nombre y apellido</th>
+                <td mat-cell *matCellDef="let element"> {{element| fullName }} </td>
+              </ng-container>
+      
+              <ng-container matColumnDef="Telefono">
+                <th mat-header-cell *matHeaderCellDef> Telefono </th>
+                <td mat-cell *matCellDef="let element"> {{element.Telefono}} </td>
+              </ng-container>
+    
+              <ng-container matColumnDef="Correo">
+                <th mat-header-cell *matHeaderCellDef> Correo </th>
+                <td mat-cell *matCellDef="let element"> {{element.Correo}} </td>
+              </ng-container>
+    
+              <ng-container matColumnDef="Rol">
+                <th mat-header-cell *matHeaderCellDef> Rol </th>
+                <td mat-cell *matCellDef="let element"> {{element.Rol}} </td>
+              </ng-container>
+              
+              <ng-container matColumnDef="Acciones">
+                <th mat-header-cell *matHeaderCellDef> Acciones </th>
+                <td mat-cell *matCellDef="let element">
+                  <button (click)="onEdit(element)" mat-icon-button color="primary">
+                    <mat-icon>edit</mat-icon>
+                  </button>
+                  <button (click)="onDelete(element.IDInscripcion)" mat-icon-button color="warn">
+                    <mat-icon primar>delete</mat-icon>
+                  </button>
+                </td>
+              </ng-container>
+          
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
             </table>
-        </div>
-    </mat-tab>
-    <mat-tab label="Agregar o modificar estudiante">
-            <app-student-form (formularioEnviado)="handleFormSubmission($event)"></app-student-form>
+          </div>
     </mat-tab>
 </mat-tab-group>
