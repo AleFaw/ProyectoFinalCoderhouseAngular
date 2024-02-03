@@ -23,13 +23,14 @@ export class SubjectsComponent {
   }
 
   onCreate(): void {
-    this.dialog.open(SubjectFormComponent).afterClosed().subscribe({
+    this.dialog.open(SubjectFormComponent,{
+      data: {view: false, edit: false}
+    }).afterClosed().subscribe({
         next: (result) => {
           if (result) {
             this.subjectsService.addCurso(result).subscribe({
               next: (cursos) => {
                 this.cursos = cursos;
-                console.log("Lista completa: ", JSON.stringify(this.cursos));
               },
             });
           }
@@ -39,7 +40,7 @@ export class SubjectsComponent {
 
   onEdit(curso: Cursos){
     this.dialog.open(SubjectFormComponent, {
-      data: curso
+      data: {view: false, edit: true, curso}
     }).afterClosed().subscribe({
       next: (result) => {
         if(result){
@@ -59,4 +60,9 @@ export class SubjectsComponent {
     })
   }
 
+  onView(cursos: Cursos){
+    this.dialog.open(SubjectFormComponent, {
+      data: { view: true, edit: false, curso: cursos}
+    })
+  }
 }

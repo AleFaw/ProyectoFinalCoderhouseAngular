@@ -1,6 +1,8 @@
 import { Injectable } from "@angular/core";
-import { of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { Cursos } from './Models';
+import { Inscripciones } from "../inscriptions/Models";
+import { Usuarios } from "../students/Models";
 
 
 let cursos: Cursos[] = [
@@ -34,6 +36,8 @@ let cursos: Cursos[] = [
     },
 ]
 
+let inscripciones: Inscripciones[] = []
+
 @Injectable()
 
 export class SubjectsService {
@@ -47,6 +51,11 @@ export class SubjectsService {
         return this.getCursos();
     }
 
+    deleteInscripcionesByID(id:number){
+        inscripciones = inscripciones.filter((el) => el.IDInscripcion != id);
+        return of(inscripciones);
+    }
+
     addCurso(data: Cursos) {
         cursos = [...cursos, { ...data, IDCurso: cursos.length + 1, Estado: true, }];
         return this.getCursos();
@@ -55,5 +64,9 @@ export class SubjectsService {
     updateCursos(id: number, data: Cursos){
         cursos = cursos.map((el) => el.IDCurso === id ? {...el,...data} : el);
         return this.getCursos();
+    }
+
+    comprobarAlumnos(dataC: Cursos, DataI: Inscripciones[]): Observable<Inscripciones[]> {
+        return of(DataI.filter((el) => el.IDCurso === dataC.IDCurso));
     }
 }

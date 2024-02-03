@@ -3,6 +3,8 @@ import { Observable, of } from 'rxjs';
 import { Inscripciones } from './Models';
 import { Usuarios } from "../students/Models";
 import { StudentsService } from '../students/students.service';
+import { Cursos } from "../subjects/Models";
+import { SubjectsService } from "../subjects/subjects.service";
 
 let inscrip: Inscripciones[] = [
     {
@@ -25,7 +27,7 @@ let inscrip: Inscripciones[] = [
     },
     {
         IDInscripcion: 3,
-        IDCurso: 1,
+        IDCurso: 2,
         NombreCurso: 'Data Analytics - Hibrido - Tarde',
         IDAlumno: 9,
         NombreAlumno: 'Ricardo Torres',
@@ -36,7 +38,7 @@ let inscrip: Inscripciones[] = [
 
 @Injectable()
 export class InscriptionsService {
-    constructor(private studentsService: StudentsService) {}
+    constructor(private studentsService: StudentsService, private subjectService: SubjectsService) {}
 
     getInscripciones(){
         return of(inscrip);
@@ -47,11 +49,16 @@ export class InscriptionsService {
         return this.getInscripciones();
     }
 
-    addInscipciones(data: Inscripciones, dataA: Usuarios[]){
+    addInscipciones(data: Inscripciones, dataA: Usuarios[], dataC: Cursos[]){
         let alumno: Usuarios | undefined = this.obtenerAlumno(data.NombreAlumno, dataA);
+        let curso: Cursos | undefined = this.obtenerCurso(data.NombreCurso, dataC);
+
         if (alumno) {
             data.IDAlumno = alumno.IDUsuario;
-            inscrip = [...inscrip, {...data, IDInscripcion: inscrip.length + 1}];
+            if(curso){
+                data.IDCurso = curso.IDCurso;
+                inscrip = [...inscrip, {...data, IDInscripcion: inscrip.length + 1}];
+            }
         }
         return this.getInscripciones();
     }
@@ -64,5 +71,10 @@ export class InscriptionsService {
     obtenerAlumno(nombreCompleto: string, dataA: Usuarios[]): Usuarios | undefined {
         const alumno = dataA.find(alumno => `${alumno.Nombre} ${alumno.Apellido}` === nombreCompleto);
         return alumno;
+    } 
+
+    obtenerCurso(nombreCurso: string, dataA: Cursos[]): Cursos | undefined {
+        const curso = dataA.find(curso => curso.Nombre === nombreCurso);
+        return curso;
     } 
 }

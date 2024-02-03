@@ -16,6 +16,8 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSelectModule } from '@angular/material/select';
 import { SharedModule } from '../../../../shared/shared.module';
+import { InscriptionsService } from '../inscriptions/inscriptions.service';
+import { InscriptionsModule } from '../inscriptions/inscriptions.module';
 
 
 @NgModule({
@@ -36,10 +38,12 @@ import { SharedModule } from '../../../../shared/shared.module';
     MatDatepickerModule,
     MatDialogModule,
     MatSelectModule,
-    SharedModule
+    SharedModule,
+    InscriptionsModule
   ],
   providers: [
     SubjectsService,
+    InscriptionsService,
   ],
 })
 export class SubjectsModule { }

@@ -5,6 +5,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { InscriptionFormComponent } from './components/inscription-form/inscription-form.component';
 import { Usuarios } from '../students/Models';
 import { StudentsService } from '../students/students.service';
+import { Cursos } from '../subjects/Models';
+import { SubjectsService } from '../subjects/subjects.service';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-inscriptions',
@@ -17,8 +20,9 @@ export class InscriptionsComponent {
 
   inscrip: Inscripciones[] = []
   usuarios: Usuarios[] = []
+  cursos: Cursos[] = []
 
-  constructor(private inscriptionsService: InscriptionsService, private studentsService: StudentsService, public dialog: MatDialog){
+  constructor(private inscriptionsService: InscriptionsService, private studentsService: StudentsService, private subjectsService: SubjectsService, public dialog: MatDialog){
     this.inscriptionsService.getInscripciones().subscribe({
       next: (inscrip) =>{
         this.inscrip = inscrip;
@@ -30,6 +34,12 @@ export class InscriptionsComponent {
         this.usuarios = us;
       }
     })
+
+    this.subjectsService.getCursos().subscribe({
+      next: (cu) => {
+        this.cursos = cu;
+      }
+    })
   }
 
   
@@ -39,7 +49,7 @@ export class InscriptionsComponent {
     }).afterClosed().subscribe({
         next: (result) => {
           if (result) {
-            this.inscriptionsService.addInscipciones(result,this.usuarios).subscribe({
+            this.inscriptionsService.addInscipciones(result,this.usuarios,this.cursos).subscribe({
               next: (Inscripcion) => {
                 this.inscrip = Inscripcion;
               },

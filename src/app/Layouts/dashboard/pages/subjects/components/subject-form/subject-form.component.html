@@ -122,6 +122,36 @@
             </mat-form-field>
         </div>
     
+        <div *ngIf="viewMode" class="col-12">
+            <h3>Alumnos Disponibles</h3>
+            <table mat-table [dataSource]="inscripcionesAlumno" class="mat-elevation-z8">
+              <ng-container matColumnDef="nombreCurso">
+                <th mat-header-cell *matHeaderCellDef>Nombre</th>
+                <td mat-cell *matCellDef="let inscripcion">{{ inscripcion.NombreAlumno }}</td>
+              </ng-container>
+              <ng-container matColumnDef="modalidad">
+                <th mat-header-cell *matHeaderCellDef>Modalidad</th>
+                <td mat-cell *matCellDef="let inscripcion">{{ inscripcion.Modalidad }}</td>
+              </ng-container>
+              <ng-container matColumnDef="turno">
+                <th mat-header-cell *matHeaderCellDef>Turno</th>
+                <td mat-cell *matCellDef="let inscripcion">{{ inscripcion.Turno }}</td>
+              </ng-container>
+      
+              <ng-container matColumnDef="acciones">
+                <th mat-header-cell *matHeaderCellDef> Acciones </th>
+                <td mat-cell *matCellDef="let element">
+                  <button (click)="onDelete(element.IDInscripcion)" mat-icon-button color="warn">
+                    <mat-icon primar>cancel</mat-icon>
+                  </button>
+                </td>
+              </ng-container>
+      
+              <tr mat-header-row *matHeaderRowDef="['nombreCurso', 'modalidad', 'turno', 'acciones']"></tr>
+              <tr mat-row *matRowDef="let row; columns: ['nombreCurso', 'modalidad', 'turno', 'acciones'];"></tr>
+            </table>
+          </div>
+
     </form>
 </div>
 <div mat-dialog-actions>

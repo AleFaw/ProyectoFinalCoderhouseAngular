@@ -16,6 +16,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { StudentsService } from './students.service';
 import { SharedModule } from '../../../../shared/shared.module';
 import { InscriptionsService } from '../inscriptions/inscriptions.service';
+import { SubjectsService } from '../subjects/subjects.service';
 
 
 
@@ -42,6 +43,7 @@ import { InscriptionsService } from '../inscriptions/inscriptions.service';
   providers: [
     StudentsService,
     InscriptionsService,
+    SubjectsService,
   ]
 })
 export class StudentsModule { }
