@@ -65,7 +65,7 @@ export class InscriptionsComponent {
     }).afterClosed().subscribe({
       next: (result) => {
         if (result) {
-          this.inscriptionsService.updateInscripciones(inscripcion.IDInscripcion, result).subscribe({
+          this.inscriptionsService.updateInscripciones(inscripcion.IDInscripcion, result, this.cursos).subscribe({
             next: (inscripciones) => (this.inscrip = inscripciones),
           })
         }

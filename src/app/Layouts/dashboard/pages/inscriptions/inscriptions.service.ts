@@ -63,8 +63,17 @@ export class InscriptionsService {
         return this.getInscripciones();
     }
 
-    updateInscripciones(id: number, data: Inscripciones){
-        inscrip = inscrip.map((el) => el.IDInscripcion === id ? {...el,...data} : el);
+    updateInscripciones(id: number, data: Inscripciones, dataC: Cursos[]){
+        let curso: Cursos | undefined = this.obtenerCurso(data.NombreCurso, dataC);
+    
+        inscrip = inscrip.map((el) => {
+            if (el.IDInscripcion === id) {
+                return { ...el, ...data, IDCurso: curso ? curso.IDCurso : el.IDCurso };
+            } else {
+                return el;
+            }
+        });
+    
         return this.getInscripciones();
     }
 

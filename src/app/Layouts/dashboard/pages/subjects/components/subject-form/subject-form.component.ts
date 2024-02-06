@@ -125,32 +125,26 @@ export class SubjectFormComponent {
 
 
   obtenerCursos(): void {
-    // Obtener datos de usuarios
     this.subjectsService.getCursos().subscribe({
       next: (cursos: Cursos[]) => {
-        // Utiliza los datos de usuarios aquí según sea necesario
 
-        // Luego, obtén los datos de inscripciones
         this.inscriptionService.getInscripciones().subscribe({
           next: (inscripciones: any[]) => {
-            // Utiliza los datos de inscripciones aquí según sea necesario
-            // Por ejemplo, puedes asignarlos a una propiedad de clase para usarlos en tu plantilla
             this.inscripciones = inscripciones;
+            console.log("Total de inscripciones: " + JSON.stringify(this.inscripciones));
 
-            // Busca el usuario actual dentro de los usuarios obtenidos
             const cursoActual = cursos.find(curso => curso.IDCurso === this.data.curso.IDCurso);
             if (cursoActual) {
-              // Si se encuentra el usuario, llama a la función para comprobar los cursos
               this.subjectsService.comprobarAlumnos(cursoActual, inscripciones).subscribe({
                 next: (inscripcionesAlumno: any[]) => {
-                  // Asigna los cursos del alumno a la propiedad correspondiente
-                  this.inscripcionesAlumno = inscripcionesAlumno;
+                  this.inscripcionesAlumno = inscripciones.filter(inscripcion => inscripcion.IDCurso === cursoActual.IDCurso);
                   console.log("Las inscripciones son: " + JSON.stringify(this.inscripcionesAlumno));
                 },
                 error: (error) => {
                   console.error('Error al comprobar cursos del alumno:', error);
                 }
               });
+              
             }
           },
           error: (error) => {

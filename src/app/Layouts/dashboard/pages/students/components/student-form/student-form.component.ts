@@ -63,25 +63,15 @@ export class StudentFormComponent {
     }
     
     obtenerCursos(): void {
-      // Obtener datos de usuarios
       this.studentsService.getUsuarios().subscribe({
         next: (usuarios: Usuarios[]) => {
-          // Utiliza los datos de usuarios aquí según sea necesario
-    
-          // Luego, obtén los datos de inscripciones
           this.inscriptionsService.getInscripciones().subscribe({
             next: (inscripciones: any[]) => {
-              // Utiliza los datos de inscripciones aquí según sea necesario
-              // Por ejemplo, puedes asignarlos a una propiedad de clase para usarlos en tu plantilla
               this.inscripciones = inscripciones;
-    
-              // Busca el usuario actual dentro de los usuarios obtenidos
               const usuarioActual = usuarios.find(user => user.IDUsuario === this.data.usuario.IDUsuario);
               if (usuarioActual) {
-                // Si se encuentra el usuario, llama a la función para comprobar los cursos
                 this.studentsService.comprobarCursos(usuarioActual, inscripciones).subscribe({
                   next: (inscripcionesAlumno: any[]) => {
-                    // Asigna los cursos del alumno a la propiedad correspondiente
                     this.inscripcionesAlumno = inscripcionesAlumno;
                   },
                   error: (error) => {
