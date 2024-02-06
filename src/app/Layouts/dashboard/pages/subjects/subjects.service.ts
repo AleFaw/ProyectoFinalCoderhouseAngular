@@ -69,4 +69,8 @@ export class SubjectsService {
     comprobarAlumnos(dataC: Cursos, DataI: Inscripciones[]): Observable<Inscripciones[]> {
         return of(DataI.filter((el) => el.IDCurso === dataC.IDCurso));
     }
+
+    comprobarCursos(dataA: Usuarios, DataI: Inscripciones[]): Observable<Inscripciones[]> {
+        return of(DataI.filter((el) => el.NombreAlumno === dataA.Nombre));
+    }
 }

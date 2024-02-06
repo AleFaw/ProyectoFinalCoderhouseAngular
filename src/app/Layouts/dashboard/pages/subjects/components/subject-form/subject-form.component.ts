@@ -145,7 +145,7 @@ export class SubjectFormComponent {
                 next: (inscripcionesAlumno: any[]) => {
                   // Asigna los cursos del alumno a la propiedad correspondiente
                   this.inscripcionesAlumno = inscripcionesAlumno;
-                  console.log(this.inscripcionesAlumno);
+                  console.log("Las inscripciones son: " + JSON.stringify(this.inscripcionesAlumno));
                 },
                 error: (error) => {
                   console.error('Error al comprobar cursos del alumno:', error);
