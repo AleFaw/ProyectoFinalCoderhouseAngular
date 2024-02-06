@@ -133,7 +133,6 @@ export class StudentFormComponent {
         if (result.isConfirmed) {
           this.inscriptionsService.deleteInscripcionesByID(id).subscribe({
             next: () => {
-              // Después de eliminar la inscripción, actualiza la lista de inscripciones del alumno
               this.obtenerCursos();
               Swal.fire({
                 icon: 'success',
