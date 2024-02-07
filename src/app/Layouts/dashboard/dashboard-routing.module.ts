@@ -20,7 +20,7 @@ const routes: Routes = [
         },
         { 
             path: "",
-            redirectTo: "inicio", pathMatch: "full" 
+            redirectTo: "inicio", pathMatch: "prefix" 
         },
 ]
 @NgModule({
