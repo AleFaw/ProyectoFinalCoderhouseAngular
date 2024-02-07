@@ -4,12 +4,6 @@ import { HomeComponent } from './home.component';
 import { RouterModule, Routes } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
-const routes: Routes = [
-  {
-    path: '',
-    component: HomeComponent
-  }
-];
 
 @NgModule({
   declarations: [
@@ -17,7 +11,7 @@ const routes: Routes = [
   ],
   imports: [
     CommonModule,
-    RouterModule.forChild(routes),
+    RouterModule,
     MatCardModule,
     MatIconModule,
   ]

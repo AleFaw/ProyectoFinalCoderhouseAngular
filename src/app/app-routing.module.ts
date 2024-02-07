@@ -9,16 +9,21 @@ const routes: Routes = [
     component: DashboardComponent,
     loadChildren: () =>
     import('./Layouts/dashboard/dashboard.module').then(
-      (m) => m.DashboardModule
-    ),
+      (m) => m.DashboardModule),
   },
   {
-    path: 'auth/login',
-    component: LoginComponent,
+    path: 'auth',
+    loadChildren: () =>
+    import('./Layouts/auth/auth.module').then(
+      (m) => m.AuthModule),
+  },
+  {
+    path: '',
+    redirectTo: 'auth', pathMatch: 'full',
   },
   {
     path: '**',
-    redirectTo: 'dashboard',
+    redirectTo: 'auth',
   },
 ];
 
