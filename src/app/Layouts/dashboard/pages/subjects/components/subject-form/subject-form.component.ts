@@ -5,6 +5,8 @@ import { Cursos } from '../../Models';
 import Swal from 'sweetalert2';
 import { SubjectsService } from '../../subjects.service';
 import { InscriptionsService } from '../../../inscriptions/inscriptions.service';
+import { Inscripciones } from '../../../inscriptions/Models/index';
+import { AuthService } from '../../../../../auth/auth.service';
 
 @Component({
   selector: 'app-subject-form',
@@ -17,12 +19,14 @@ export class SubjectFormComponent {
   inscripciones: any[] = [];
   inscripcionesAlumno: any[] = [];
   viewMode: boolean;
+  authUser: any;
 
   constructor(private fb: FormBuilder,
     private dialogRef: MatDialogRef<SubjectFormComponent>,
     @Inject(MAT_DIALOG_DATA) private data: { curso: Cursos, view: boolean, edit: boolean },
     private subjectsService: SubjectsService,
-    private inscriptionService: InscriptionsService,) {
+    private inscriptionService: InscriptionsService,
+    private authService: AuthService) {
     this.viewMode = this.data.view;
     this.subjectForm = this.fb.group({
       Nombre: ['', [Validators.required, Validators.pattern('^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ -]+$')]], // Permitir letras, espacios y caracteres acentuados
@@ -58,6 +62,7 @@ export class SubjectFormComponent {
 
   ngOnInit() {
     this.obtenerCursos();
+    this.authUser = this.authService.authUser;
   }
 
   guardar(): void {
@@ -88,7 +93,7 @@ export class SubjectFormComponent {
 
 
 
-  onDelete(id: number) {
+  onDelete(data: Inscripciones) {
     Swal.fire({
       title: '¿Está seguro?',
       text: 'Esta acción no se puede revertir',
@@ -100,7 +105,7 @@ export class SubjectFormComponent {
       cancelButtonText: 'Cancelar'
     }).then((result) => {
       if (result.isConfirmed) {
-        this.inscriptionService.deleteInscripcionesByID(id).subscribe({
+        this.subjectsService.deleteInscripcionesByID(data.id).subscribe({
           next: () => {
             this.obtenerCursos();
             Swal.fire({

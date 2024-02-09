@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import Swal from 'sweetalert2';
+import { AuthService } from '../../auth.service';
 
 @Component({
   selector: 'app-login',
@@ -11,7 +13,7 @@ export class LoginComponent {
   loginForm: FormGroup;
   
 
-  constructor(private fb: FormBuilder){
+  constructor(private fb: FormBuilder, private authService: AuthService){
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       clave: ['', Validators.required],
@@ -24,8 +26,18 @@ export class LoginComponent {
       this.loginForm.get('email')?.setValue('');
       this.loginForm.get('clave')?.setValue('');
     }else{
-      alert("Entro");
+      const email = this.loginForm.get('email')?.value;
+      const clave = this.loginForm.get('clave')?.value;
+      this.authService.login(this.loginForm.value);
     }
+  }
+
+  showErrorMessage(message: string) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Error',
+      text: message,
+    });
   }
 
   togglePasswordVisibility() {

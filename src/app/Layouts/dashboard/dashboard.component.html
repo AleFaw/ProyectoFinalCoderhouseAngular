@@ -1,48 +1,85 @@
 <mat-drawer-container class="dashboard-container" autosize>
     <div class="dashboard-sidenav-contenido">
         <mat-toolbar style="background-color: rgb(25, 37, 162);">
-            <button type="button" mat-icon-button style="color:rgb(255, 255, 255);" (click)="drawer.toggle()"
-                aria-label="Example icon button with a menu icon">
-                <mat-icon>menu</mat-icon>
-            </button>
-
-            <img src="../../../assets/img/Logo.ico" alt="Logo TecnoAula" class="logoImg">
-
-            <span class="logo">TecnoAula</span>
-            <span class="example-spacer" style="color:white;"></span>
-
+            <div class="row" style="width:100%;">
+                <div class="col-md-4">
+                    <button type="button" mat-icon-button style="color:rgb(255, 255, 255);" (click)="drawer.toggle()"
+                        aria-label="Example icon button with a menu icon">
+                        <mat-icon>menu</mat-icon>
+                    </button>
+    
+                    <img src="../../../assets/img/Logo.ico" alt="Logo TecnoAula" class="logoImg">
+    
+                    <span class="logo">TecnoAula</span>
+                    <span class="example-spacer" style="color:white;"></span>
+                </div>
+                <div class="col-md-4 d-flex justify-content-center align-items-center">
+                    <span style="color: white;">{{ titulo }}</span>
+                </div>
+                <div class="col-md-4 d-flex justify-content-end align-items-center">
+                    <span *ngIf="authUser" style="color: white;">{{ "Bienvenido: " + authUser.Nombre + " " + authUser.Apellido }}</span>
+                </div>
+            </div>
         </mat-toolbar>
     </div>
+    
 
     <mat-drawer #drawer class="dashboard-sidenav" mode="side">
         <div class="row">
             <img src="../../../assets/img/Avatar.png" class="avatar">
-            <p style="color:white; font-size: 20px; text-align: center;">Bienvenido TuUsuario!!</p>
+            <p style="color:white; font-size: 20px; text-align: center;">Bienvenido {{ nombreUsuario }}!!</p>
         </div>
         <div class="row" style="margin-top: 50px; display: flex; align-items: center;">
             <mat-nav-list>
-                <a #homeLink="routerLinkActive" routerLinkActive [activated]="homeLink.isActive" routerLink="inicio" mat-list-item style="font-size: 18px; color: white; width:100vh;">
-                    <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="home" style="color: white;"></mat-icon>
+                <a #homeLink="routerLinkActive" routerLinkActive [activated]="homeLink.isActive" routerLink="inicio"
+                    mat-list-item style="font-size: 18px; color: white; width:100vh;">
+                    <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="home"
+                        style="color: white;"></mat-icon>
                     <span style="color: white; font-size:25px; margin-left:7px;">Inicio</span>
                 </a>
-                
-                <a #usersLink="routerLinkActive" routerLinkActive [activated]="usersLink.isActive" routerLink="estudiantes" mat-list-item style="font-size: 18px; color: white; width:100vh;">
-                    <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="person" style="color: white;"></mat-icon>
+
+                <a *ngIf="authUser && authUser.Rol === 'Administrador'" #usersLink="routerLinkActive" routerLinkActive
+                    [activated]="usersLink.isActive" routerLink="estudiantes" mat-list-item
+                    style="font-size: 18px; color: white; width:100vh;">
+                    <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="person"
+                        style="color: white;"></mat-icon>
                     <span style="color: white; font-size:25px; margin-left:7px;">Usuarios</span>
                 </a>
 
-                <a #cursosLink="routerLinkActive" routerLinkActive [activated]="cursosLink.isActive" routerLink="cursos" mat-list-item style="font-size: 18px; color: white; width:100vh;">
-                    <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="school" style="color: white;"></mat-icon>
+                <a *ngIf="authUser && authUser.Rol === 'Administrador'" mat-list-item
+                    style="font-size: 18px; color: white; width:100vh;">
+                    <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="account_circle"
+                        style="color: white;"></mat-icon>
+                    <span style="color: white; font-size:25px; margin-left:7px;">AQ</span>
+                </a>
+
+
+                <a *ngIf="authUser && authUser.Rol === 'Estudiante'" #usersLink="routerLinkActive" routerLinkActive
+                    [activated]="usersLink.isActive" routerLink="estudiantes" mat-list-item
+                    style="font-size: 18px; color: white; width:100vh;">
+                    <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="person"
+                        style="color: white;"></mat-icon>
+                    <span style="color: white; font-size:25px; margin-left:7px;">Estudiantes</span>
+                </a>
+
+                <a #cursosLink="routerLinkActive" routerLinkActive [activated]="cursosLink.isActive" routerLink="cursos"
+                    mat-list-item style="font-size: 18px; color: white; width:100vh;">
+                    <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="school"
+                        style="color: white;"></mat-icon>
                     <span style="color: white; font-size:25px; margin-left:7px;">Cursos</span>
                 </a>
 
-                <a #inscripcionesLink="routerLinkActive" routerLinkActive [activated]="inscripcionesLink.isActive" routerLink="inscripciones" mat-list-item style="font-size: 18px; color: white; width:100vh;">
-                    <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="create" style="color: white;"></mat-icon>
+                <a #inscripcionesLink="routerLinkActive" routerLinkActive [activated]="inscripcionesLink.isActive"
+                    routerLink="inscripciones" mat-list-item style="font-size: 18px; color: white; width:100vh;">
+                    <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="create"
+                        style="color: white;"></mat-icon>
                     <span style="color: white; font-size:25px; margin-left:7px;">Inscripciones</span>
                 </a>
 
-                <a mat-list-item (click)="logout()" style="font-size: 18px; color: white; width:100vh; margin-top:30px;">
-                    <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="exit_to_app" style="color: white;"></mat-icon>
+                <a mat-list-item (click)="logout()"
+                    style="font-size: 18px; color: white; width:100vh; margin-top:30px;">
+                    <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="exit_to_app"
+                        style="color: white;"></mat-icon>
                     <span style="color: white; font-size:25px; margin-left:7px;">Cerrar sesión</span>
                 </a>
             </mat-nav-list>

@@ -1,0 +1,193 @@
+{
+  "users": [
+    {
+      "Nombre": "Juanes",
+      "Apellido": "Perez",
+      "Telefono": "1124251645",
+      "Correo": "juan@example.com",
+      "Dni": "28456789",
+      "Direccion": "Calle A, Ciudad X",
+      "Usuario": "JuanP",
+      "Clave": "JuanP",
+      "Rol": "Estudiante",
+      "id": "c482"
+    },
+    {
+      "IDUsuario": 2,
+      "Nombre": "Maria",
+      "Apellido": "Gomez",
+      "Dni": "36587412",
+      "Telefono": "1123456789",
+      "Correo": "maria@example.com",
+      "Direccion": "Calle B, Ciudad Y",
+      "Usuario": "MariaG",
+      "Clave": "MariaG",
+      "Rol": "Estudiante",
+      "id": "2870"
+    },
+    {
+      "IDUsuario": 3,
+      "Nombre": "Carlos",
+      "Apellido": "Rodriguez",
+      "Dni": "19876543",
+      "Telefono": "1123454321",
+      "Correo": "carlos@example.com",
+      "Direccion": "Calle C, Ciudad Z",
+      "Usuario": "CarlosR",
+      "Clave": "CarlosR",
+      "Rol": "Estudiante",
+      "id": "0c9d"
+    },
+    {
+      "IDUsuario": 4,
+      "Nombre": "Ana",
+      "Apellido": "Lopez",
+      "Dni": "54321678",
+      "Telefono": "1123549876",
+      "Correo": "ana@example.com",
+      "Direccion": "Calle D, Ciudad W",
+      "Usuario": "AnaL",
+      "Clave": "AnaL",
+      "Rol": "Estudiante",
+      "id": "a453"
+    },
+    {
+      "IDUsuario": 5,
+      "Nombre": "Luis",
+      "Apellido": "Martinez",
+      "Dni": "87654321",
+      "Telefono": "1123678901",
+      "Correo": "luis@example.com",
+      "Direccion": "Calle E, Ciudad V",
+      "Usuario": "LuisM",
+      "Clave": "LuisM",
+      "Rol": "Profesor",
+      "id": "4ad3"
+    },
+    {
+      "IDUsuario": 6,
+      "Nombre": "Laura",
+      "Apellido": "Fernandez",
+      "Dni": "65432187",
+      "Telefono": "1123908765",
+      "Correo": "laura@example.com",
+      "Direccion": "Calle F, Ciudad U",
+      "Usuario": "LauraF",
+      "Clave": "LauraF",
+      "Rol": "Estudiante",
+      "id": "7fec"
+    },
+    {
+      "IDUsuario": 7,
+      "Nombre": "Gabriel",
+      "Apellido": "Diaz",
+      "Dni": "12348765",
+      "Telefono": "1123123456",
+      "Correo": "gabriel@example.com",
+      "Direccion": "Calle G, Ciudad T",
+      "Usuario": "GabrielD",
+      "Clave": "GabrielD",
+      "Rol": "Estudiante",
+      "id": "3ad2"
+    },
+    {
+      "IDUsuario": 8,
+      "Nombre": "Valeria",
+      "Apellido": "Sanchez",
+      "Dni": "87651234",
+      "Telefono": "1123345678",
+      "Correo": "valeria@example.com",
+      "Direccion": "Calle H, Ciudad S",
+      "Usuario": "ValeriaS",
+      "Clave": "ValeriaS",
+      "Rol": "Administrador",
+      "id": "5c10"
+    },
+    {
+      "id": "ed12",
+      "Nombre": "Alejo",
+      "Apellido": "Tarrio Omar",
+      "Telefono": "1123230811",
+      "Correo": "ale@gmail.com",
+      "Dni": "43251436",
+      "Direccion": "Teniente Benjamín Matienzo 298",
+      "Usuario": "AlejoT",
+      "Clave": "AlejoT",
+      "Rol": "Administrador"
+    }
+  ],
+  "courses": [
+    {
+      "IDCurso": 1,
+      "Nombre": "Angular - Virtual - Noche",
+      "FechaInicio": "2024-02-08T12:00:00.000Z",
+      "FechaFin": "2024-02-08T12:00:00.000Z",
+      "Docente": "Josué Oraya",
+      "Costo": 168000,
+      "Modalidad": "Virtual",
+      "Capacidad": 30,
+      "Inscriptos": 3,
+      "Estado": true,
+      "Descripcion": "Introduccion al desarrollo en angular",
+      "Turno": "Noche",
+      "id": "3deb"
+    },
+    {
+      "IDCurso": 2,
+      "Nombre": "Data Analytics - Hibrido - Tarde",
+      "FechaInicio": "2024-02-08T12:00:00.000Z",
+      "FechaFin": "2024-02-08T12:00:00.000Z",
+      "Docente": "Daniela Rattia",
+      "Costo": 168000,
+      "Modalidad": "Hibrido",
+      "Capacidad": 30,
+      "Inscriptos": 3,
+      "Estado": true,
+      "Descripcion": "Introduccion al data analytics",
+      "Turno": "Tarde",
+      "id": "de03"
+    },
+    {
+      "Nombre": "Python introducciones",
+      "FechaInicio": "2024-02-09T03:00:00.000Z",
+      "FechaFin": "2024-02-22T03:00:00.000Z",
+      "Docente": "Alejo",
+      "Capacidad": "200",
+      "Inscriptos": "100",
+      "Descripcion": "Curso de python",
+      "Costo": "200000",
+      "Modalidad": "Presencial",
+      "Turno": "Mañana",
+      "id": "b864"
+    }
+  ],
+  "inscriptions": [
+    {
+      "IDInscripcion": 1,
+      "IDCurso": 1,
+      "NombreCurso": "Angular - Virtual - Noche",
+      "IDAlumno": 1,
+      "NombreAlumno": "Juan Perez",
+      "Modalidad": "Virtual",
+      "Turno": "Noche",
+      "id": "6e48"
+    },
+    {
+      "IDInscripcion": 2,
+      "IDCurso": 1,
+      "NombreCurso": "Angular - Virtual - Noche",
+      "IDAlumno": 5,
+      "NombreAlumno": "Luis Martinez",
+      "Modalidad": "Virtual",
+      "Turno": "Noche",
+      "id": "5968"
+    },
+    {
+      "NombreCurso": "Python introducciones",
+      "NombreAlumno": "Alejo Tarrio Omar",
+      "Modalidad": "Presencial",
+      "Turno": "Mañana",
+      "id": "f480"
+    }
+  ]
+}

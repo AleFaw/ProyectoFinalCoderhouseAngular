@@ -11,8 +11,8 @@
 
             <form [formGroup]="loginForm" class="login-form" (ngSubmit)="onSubmit()">
               <mat-form-field appearance="fill" class="input-field">
-                <mat-label>Usuario</mat-label>
-                <input matInput formControlName="email" placeholder="Ingrese su usuario">
+                <mat-label>E-Mail</mat-label>
+                <input matInput formControlName="email" placeholder="Ingrese su email">
                 <mat-error *ngIf="loginForm.get('email')?.invalid && (loginForm.get('email')?.dirty || loginForm.get('email')?.touched)">
                   <span *ngIf="loginForm.get('email')?.errors?.['required']">El correo electrónico es requerido</span>
                   <span *ngIf="loginForm.get('email')?.errors?.['email']">El correo electrónico no es válido</span>
@@ -22,7 +22,7 @@
               <mat-form-field appearance="fill" class="input-field">
                 <mat-label>Contraseña</mat-label>
                 <input matInput formControlName="clave" [type]="hide ? 'password' : 'text'" placeholder="Ingrese su contraseña">
-                <button mat-icon-button matSuffix (click)="togglePasswordVisibility()">
+                <button mat-icon-button type="button" matSuffix (click)="togglePasswordVisibility()">
                   <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
                 </button>
                 <mat-error *ngIf="loginForm.get('clave')?.invalid && (loginForm.get('clave')?.dirty || loginForm.get('clave')?.touched)">

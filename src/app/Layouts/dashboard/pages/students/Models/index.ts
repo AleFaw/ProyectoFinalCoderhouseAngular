@@ -9,4 +9,5 @@ export interface Usuarios{
     Usuario: string;
     Clave: string;
     Rol: string;
+    id: string
 }

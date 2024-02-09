@@ -4,6 +4,7 @@ import { Usuarios } from './Models';
 import { MatDialog } from '@angular/material/dialog';
 import { StudentFormComponent } from './components/student-form/student-form.component';
 import Swal from 'sweetalert2';
+import { AuthService } from '../../../auth/auth.service';
 
 @Component({
   selector: 'app-students',
@@ -17,12 +18,34 @@ export class StudentsComponent {
 
   usuarios: Usuarios[] = []
 
-  constructor(private studentsService: StudentsService, public dialog: MatDialog) {
+  authUser: any;
+
+  constructor(private studentsService: StudentsService, public dialog: MatDialog, private authService: AuthService) {
+    //this.authUser = this.authService.authUser;
+    this.loadUsuarios();
+  }
+
+  loadUsuarios() {
     this.studentsService.getUsuarios().subscribe({
       next: (us) => {
-        this.usuarios = us;
-      }
-    })
+        if (this.authUser && this.authUser.Rol !== 'Administrador') {
+          this.usuarios = us.filter(usuario => usuario.Rol === 'Estudiante');
+        } else {
+          this.usuarios = us;
+        }
+      },
+      error: () => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Actualmente no se puede acceder a la base de datos.'
+        });
+      },
+    });
+  }
+
+  ngOnInit(): void {
+    this.authUser = this.authService.authUser;
   }
 
   onCreate(): void {
@@ -41,13 +64,15 @@ export class StudentsComponent {
     });
   }
 
+ 
+
   onEdit(usuario: Usuarios) {
     this.dialog.open(StudentFormComponent, {
       data: { usuario: usuario, view: false, edit: true }
     }).afterClosed().subscribe({
       next: (result) => {
         if (result) {
-          this.studentsService.updateUsuarios(usuario.IDUsuario, result).subscribe({
+          this.studentsService.updateUsuarios(usuario.id, result).subscribe({
             next: (us) => (this.usuarios = us),
           })
         }
@@ -63,7 +88,7 @@ export class StudentsComponent {
 
 
 
-  onDelete(id: number) {
+  onDelete(data: Usuarios) {
     Swal.fire({
       title: '¿Está seguro?',
       text: 'Esta acción no se puede revertir',
@@ -75,7 +100,7 @@ export class StudentsComponent {
       cancelButtonText: 'Cancelar'
     }).then((result) => {
       if (result.isConfirmed) {
-        this.studentsService.deleteUsuariosByID(id).subscribe({
+        this.studentsService.deleteUsuariosByID(data.id).subscribe({
           next: (us) => {
             this.usuarios = us;
             Swal.fire({

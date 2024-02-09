@@ -11,4 +11,5 @@ export interface Cursos{
     Estado: boolean;
     Descripcion: string;
     Turno: string;
+    id: string;
 }

@@ -30,7 +30,7 @@ import { MatIconModule } from '@angular/material/icon';
     MatButtonModule,
     FlexLayoutModule,
     MatIconModule,
-    ReactiveFormsModule
-  ]
+    ReactiveFormsModule,
+  ],
 })
 export class AuthModule { }

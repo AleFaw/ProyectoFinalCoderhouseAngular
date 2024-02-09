@@ -6,4 +6,5 @@ export interface Inscripciones {
     NombreAlumno: string;
     Modalidad: string;
     Turno: string;
+    id: string;
 }

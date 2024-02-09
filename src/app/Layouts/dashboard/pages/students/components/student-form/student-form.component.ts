@@ -6,6 +6,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Usuarios } from '../../Models';
 import { InscriptionsService } from '../../../inscriptions/inscriptions.service';
 import { Inscripciones } from '../../../inscriptions/Models';
+import { AuthService } from '../../../../../auth/auth.service';
 
 
 @Component({
@@ -20,12 +21,14 @@ export class StudentFormComponent {
   inscripciones: any[] = [];
   inscripcionesAlumno: any[] = [];
   viewMode: boolean;
+  authUser: any;
 
   constructor(private fb: FormBuilder,
     private dialogRef: MatDialogRef<StudentFormComponent>,
     @Inject(MAT_DIALOG_DATA) private data: { usuario: Usuarios, view: boolean, edit: boolean },
     private studentsService: StudentsService,
-    private inscriptionsService: InscriptionsService){
+    private inscriptionsService: InscriptionsService,
+    private authService: AuthService){
       this.viewMode = this.data.view;
       this.userForm = this.fb.group({
         Nombre: ['', [Validators.required, Validators.pattern('^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ -]+$')]],
@@ -60,6 +63,7 @@ export class StudentFormComponent {
 
     ngOnInit(): void {
       this.obtenerCursos();
+      this.authUser = this.authService.authUser;
     }
     
     obtenerCursos(): void {
@@ -119,7 +123,7 @@ export class StudentFormComponent {
       });
     }
 
-    onDelete(id: number) {
+    onDelete(data: Inscripciones) {
       Swal.fire({
         title: '¿Está seguro?',
         text: 'Esta acción no se puede revertir',
@@ -131,7 +135,7 @@ export class StudentFormComponent {
         cancelButtonText: 'Cancelar'
       }).then((result) => {
         if (result.isConfirmed) {
-          this.inscriptionsService.deleteInscripcionesByID(id).subscribe({
+          this.inscriptionsService.deleteInscripcionesByID(data.id).subscribe({
             next: () => {
               this.obtenerCursos();
               Swal.fire({

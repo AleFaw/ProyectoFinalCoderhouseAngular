@@ -8,6 +8,7 @@ import { StudentsService } from '../students/students.service';
 import { Cursos } from '../subjects/Models';
 import { SubjectsService } from '../subjects/subjects.service';
 import Swal from 'sweetalert2';
+import { AuthService } from '../../../auth/auth.service';
 
 @Component({
   selector: 'app-inscriptions',
@@ -21,8 +22,9 @@ export class InscriptionsComponent {
   inscrip: Inscripciones[] = []
   usuarios: Usuarios[] = []
   cursos: Cursos[] = []
+  authUser: any;
 
-  constructor(private inscriptionsService: InscriptionsService, private studentsService: StudentsService, private subjectsService: SubjectsService, public dialog: MatDialog) {
+  constructor(private inscriptionsService: InscriptionsService, private studentsService: StudentsService, private subjectsService: SubjectsService, public dialog: MatDialog, private authService: AuthService) {
     this.inscriptionsService.getInscripciones().subscribe({
       next: (inscrip) => {
         this.inscrip = inscrip;
@@ -32,17 +34,34 @@ export class InscriptionsComponent {
     this.studentsService.getUsuarios().subscribe({
       next: (us) => {
         this.usuarios = us;
-      }
+      },
+      error: () => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Actualmente no se puede acceder a la base de datos.'
+        });
+      },
     })
 
     this.subjectsService.getCursos().subscribe({
       next: (cu) => {
         this.cursos = cu;
-      }
+      },
+      error: () => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Actualmente no se puede acceder a la base de datos.'
+        });
+      },
     })
   }
 
-
+  ngOnInit(): void {
+    this.authUser = this.authService.authUser;
+  }
+  
   onCreate(): void {
     this.dialog.open(InscriptionFormComponent, {
       data: { View: false, edit: false }
@@ -65,7 +84,7 @@ export class InscriptionsComponent {
     }).afterClosed().subscribe({
       next: (result) => {
         if (result) {
-          this.inscriptionsService.updateInscripciones(inscripcion.IDInscripcion, result, this.cursos).subscribe({
+          this.inscriptionsService.updateInscripciones(inscripcion.id, result, this.cursos).subscribe({
             next: (inscripciones) => (this.inscrip = inscripciones),
           })
         }
@@ -82,7 +101,7 @@ export class InscriptionsComponent {
 
 
 
-  onDelete(id: number) {
+  onDelete(data: Inscripciones) {
     Swal.fire({
       title: '¿Está seguro?',
       text: 'Esta acción no se puede revertir',
@@ -94,7 +113,7 @@ export class InscriptionsComponent {
       cancelButtonText: 'Cancelar'
     }).then((result) => {
       if (result.isConfirmed) {
-        this.inscriptionsService.deleteInscripcionesByID(id).subscribe({
+        this.inscriptionsService.deleteInscripcionesByID(data.id).subscribe({
           next: (inscripcion) => {
             this.inscrip = inscripcion;
             Swal.fire({

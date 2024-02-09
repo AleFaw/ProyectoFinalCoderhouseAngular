@@ -4,6 +4,7 @@ import { Cursos } from './Models';
 import { MatDialog } from '@angular/material/dialog';
 import { SubjectFormComponent } from './components/subject-form/subject-form.component';
 import Swal from 'sweetalert2';
+import { AuthService } from '../../../auth/auth.service';
 
 @Component({
   selector: 'app-subjects',
@@ -14,15 +15,27 @@ export class SubjectsComponent {
   displayedColumns = ['Nombre', 'FechaInicio', 'FechaFin', 'Costo', 'Acciones'];
 
   cursos: Cursos[] = []
+  authUser: any;
 
-  constructor(private subjectsService: SubjectsService, public dialog: MatDialog) {
+  constructor(private subjectsService: SubjectsService, public dialog: MatDialog, private authService: AuthService) {
     this.subjectsService.getCursos().subscribe({
       next: (cursos) => {
         this.cursos = cursos;
-      }
+      },
+      error: () => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Actualmente no se puede acceder a la base de datos.'
+        });
+      },
     })
   }
 
+  ngOnInit(): void {
+    this.authUser = this.authService.authUser;
+  }
+  
   onCreate(): void {
     this.dialog.open(SubjectFormComponent,{
       data: {view: false, edit: false}
@@ -45,7 +58,7 @@ export class SubjectsComponent {
     }).afterClosed().subscribe({
       next: (result) => {
         if(result){
-          this.subjectsService.updateCursos(curso.IDCurso, result).subscribe({
+          this.subjectsService.updateCursos(curso.id, result).subscribe({
             next: (cursos) => (this.cursos = cursos),
           })
         }
@@ -53,7 +66,8 @@ export class SubjectsComponent {
     })
   }
 
-  onDelete(id: number) {
+  onDelete(curso: Cursos) {
+    console.log("El id en component es: " + curso.id);
     Swal.fire({
       title: '¿Está seguro?',
       text: 'Esta acción no se puede revertir',
@@ -65,7 +79,7 @@ export class SubjectsComponent {
       cancelButtonText: 'Cancelar'
     }).then((result) => {
       if (result.isConfirmed) {
-        this.subjectsService.deleteSubjectByID(id).subscribe({
+        this.subjectsService.deleteSubjectByID(curso.id).subscribe({
           next: (cursos) => {
             this.cursos = cursos;
             Swal.fire({

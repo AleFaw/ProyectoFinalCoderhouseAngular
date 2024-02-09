@@ -6,6 +6,8 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DashboardModule } from './Layouts/dashboard/dashboard.module';
 import { MatNativeDateModule } from '@angular/material/core';
+import { StudentsService } from './Layouts/dashboard/pages/students/students.service';
+import { HttpClientModule } from '@angular/common/http';
 
 
 @NgModule({
@@ -17,9 +19,10 @@ import { MatNativeDateModule } from '@angular/material/core';
     AppRoutingModule,
     BrowserAnimationsModule,
     DashboardModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    HttpClientModule,
   ],
-  providers: [],
+  providers: [StudentsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

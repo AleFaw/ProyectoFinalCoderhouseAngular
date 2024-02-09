@@ -1,5 +1,5 @@
 <div clas="flex justify-content-end mb-3" style="background-color: rgba(0, 0, 255, 0.8); width: 100px; border-radius: 6%;" >
-  <button (click)="onCreate()" mat-button>
+  <button *ngIf="authUser && authUser.Rol === 'Administrador'" (click)="onCreate()" mat-button>
     <mat-icon style="color:white;">add</mat-icon>
    <p style="font-size: 20px;color:white; margin-top:13px;">Nuevo</p>
   </button>
@@ -37,10 +37,10 @@
                 <button (click)="onView(element)" mat-icon-button color="warn">
                   <mat-icon style="color: grey;">visibility</mat-icon>
                 </button>
-                <button (click)="onEdit(element)" mat-icon-button color="primary">
+                <button *ngIf="authUser && authUser.Rol === 'Administrador'" (click)="onEdit(element)" mat-icon-button color="primary">
                   <mat-icon>edit</mat-icon>
                 </button>
-                <button (click)="onDelete(element.IDUsuario)" mat-icon-button color="warn">
+                <button *ngIf="authUser && authUser.Rol === 'Administrador'" (click)="onDelete(element)" mat-icon-button color="warn">
                   <mat-icon primar>delete</mat-icon>
                 </button>
               </td>

@@ -39,6 +39,7 @@ import { SubjectsService } from '../subjects/subjects.service';
     MatDialogModule,
     MatSelectModule,
     SharedModule,
+    MatIconModule,
   ],
   providers: [
     StudentsService,
