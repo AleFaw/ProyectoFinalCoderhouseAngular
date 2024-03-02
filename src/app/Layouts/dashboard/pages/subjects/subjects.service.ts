@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Observable, mergeMap, of } from 'rxjs';
-import { Cursos } from './Models';
+import { CreateCursos, Cursos } from './Models';
 import { Inscripciones } from "../inscriptions/Models";
 import { Usuarios } from "../students/Models";
 import { HttpClient } from '@angular/common/http';
@@ -12,15 +12,14 @@ let cursos: Cursos[] = [
    
 ]
 
-let inscripciones: Inscripciones[] = []
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 
 export class SubjectsService {
 
     constructor(private httpClient: HttpClient, private inscriptionService: InscriptionsService) { }
     
-    getCursos() { //FUNCIONA CON API
+    getCursos() { 
         return this.httpClient.get<Cursos[]>(`${enviroment.apiURL}courses`);
     }
 
@@ -33,26 +32,18 @@ export class SubjectsService {
     }
 
 
-    deleteSubjectByID(id: string){ //FUNCIONA CON API
+    deleteSubjectByID(id: string){ 
         return this.httpClient.delete(`${enviroment.apiURL}courses/${id}`)
-        .pipe(mergeMap(() => this.getCursos()));
     }
 
-    addCurso(data: Cursos) { //FUNCIONA CON API
+    addCurso(data: CreateCursos) {
         return this.httpClient.
-        post<Usuarios>(`${enviroment.apiURL}courses`,data)
-        .pipe(mergeMap(() => this.getCursos()));
+        post<Cursos>(`${enviroment.apiURL}courses`,data)
     }
 
     updateCursos(id: string, data: Cursos) {
         cursos = cursos.map((el) => el.id === id ? {...el, ...data} : el);
-    
-        // Realiza la solicitud PUT al servidor JSON utilizando HttpClient
         return this.httpClient.put<Cursos>(`${enviroment.apiURL}courses/${id}`, data)
-            .pipe(
-                // Si la solicitud PUT es exitosa, devuelve la lista actualizada de cursos
-                mergeMap(() => this.getCursos())
-            );
     }
     
 

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ImagenesZoomComponent } from './imagenes-zoom/imagenes-zoom.component';
+import { AuthService } from '../../../auth/auth.service';
 
 @Component({
   selector: 'app-home',
@@ -8,8 +9,17 @@ import { ImagenesZoomComponent } from './imagenes-zoom/imagenes-zoom.component';
   styleUrl: './home.component.scss'
 })
 
+
+
 export class HomeComponent {
-  constructor(private dialog: MatDialog) {}
+
+  authUser: any;
+
+  constructor(private dialog: MatDialog, private authService: AuthService) {}
+
+  ngOnInit(): void {
+    this.authUser = this.authService.authUser;
+  }
 
   openImageModal(num: number): void {
     if(num===1)
@@ -34,8 +44,12 @@ export class HomeComponent {
         }
       });
     }
-    else{
-      
+    else if(num===4){
+      this.dialog.open(ImagenesZoomComponent, {
+        data: {
+          imageUrl: '../../../../../assets/img/inscripcionesUser.png'
+        }
+      });
     }
   }
 }

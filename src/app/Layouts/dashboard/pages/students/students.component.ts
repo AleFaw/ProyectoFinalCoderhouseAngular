@@ -21,7 +21,6 @@ export class StudentsComponent {
   authUser: any;
 
   constructor(private studentsService: StudentsService, public dialog: MatDialog, private authService: AuthService) {
-    //this.authUser = this.authService.authUser;
     this.loadUsuarios();
   }
 
@@ -111,11 +110,10 @@ export class StudentsComponent {
             });
           },
           error: (error) => {
-            console.error('Error al borrar:', error);
             Swal.fire({
               icon: 'error',
               title: 'Error',
-              text: 'Hubo un error al borrar el usuario.'
+              text: 'Hubo un error al borrar el usuario: ' + error,
             });
           }
         });

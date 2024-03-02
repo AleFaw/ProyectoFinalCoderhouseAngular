@@ -46,14 +46,6 @@
                     <span style="color: white; font-size:25px; margin-left:7px;">Usuarios</span>
                 </a>
 
-                <a *ngIf="authUser && authUser.Rol === 'Administrador'" mat-list-item
-                    style="font-size: 18px; color: white; width:100vh;">
-                    <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="account_circle"
-                        style="color: white;"></mat-icon>
-                    <span style="color: white; font-size:25px; margin-left:7px;">AQ</span>
-                </a>
-
-
                 <a *ngIf="authUser && authUser.Rol === 'Estudiante'" #usersLink="routerLinkActive" routerLinkActive
                     [activated]="usersLink.isActive" routerLink="estudiantes" mat-list-item
                     style="font-size: 18px; color: white; width:100vh;">

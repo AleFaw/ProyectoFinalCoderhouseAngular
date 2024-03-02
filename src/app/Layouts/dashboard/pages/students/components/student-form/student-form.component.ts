@@ -43,7 +43,6 @@ export class StudentFormComponent {
 
       })
 
-      console.log("Usuario:", this.data.usuario);
       if (this.data.edit) {
         this.userForm.patchValue(this.data.usuario);
       }
@@ -79,18 +78,18 @@ export class StudentFormComponent {
                     this.inscripcionesAlumno = inscripcionesAlumno;
                   },
                   error: (error) => {
-                    console.error('Error al comprobar cursos del alumno:', error);
+                    alert(error);
                   }
                 });
               }
             },
             error: (error) => {
-              console.error('Error al obtener las inscripciones:', error);
+              alert(error);
             }
           });
         },
         error: (error) => {
-          console.error('Error al obtener usuarios:', error);
+          alert(error);
         }
       });
     }
@@ -146,11 +145,10 @@ export class StudentFormComponent {
               });
             },
             error: (error) => {
-              console.error('Error al eliminar la inscripción:', error);
               Swal.fire({
                 icon: 'error',
                 title: 'Error',
-                text: 'Hubo un error al eliminar la inscripción.'
+                text: 'Hubo un error al eliminar la inscripción: ' + error,
               });
             }
           });

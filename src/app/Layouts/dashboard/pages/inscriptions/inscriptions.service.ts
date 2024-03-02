@@ -2,9 +2,7 @@ import { Injectable } from "@angular/core";
 import { Observable, mergeMap, of } from 'rxjs';
 import { Inscripciones } from './Models';
 import { Usuarios } from "../students/Models";
-import { StudentsService } from '../students/students.service';
 import { Cursos } from "../subjects/Models";
-import { SubjectsService } from "../subjects/subjects.service";
 import { HttpClient } from "@angular/common/http";
 import { enviroment } from "../../../../../enviroments/enviroment";
 
@@ -14,7 +12,7 @@ let inscrip: Inscripciones[] = [
 
 @Injectable()
 export class InscriptionsService {
-    constructor(private studentsService: StudentsService, private httpClient: HttpClient) { }
+    constructor( private httpClient: HttpClient) { }
 
 
 

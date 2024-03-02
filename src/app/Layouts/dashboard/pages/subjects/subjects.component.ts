@@ -1,35 +1,39 @@
-import { Component } from '@angular/core';
-import { SubjectsService } from './subjects.service';
+import { Component, OnDestroy } from '@angular/core';
 import { Cursos } from './Models';
 import { MatDialog } from '@angular/material/dialog';
 import { SubjectFormComponent } from './components/subject-form/subject-form.component';
 import Swal from 'sweetalert2';
 import { AuthService } from '../../../auth/auth.service';
+import { Store } from '@ngrx/store';
+import { SubjectsActions } from './store/subjects.actions';
+import { selectSubjects } from './store/subjects.selectors';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-subjects',
   templateUrl: './subjects.component.html',
   styleUrl: './subjects.component.scss'
 })
-export class SubjectsComponent {
+export class SubjectsComponent implements OnDestroy {
   displayedColumns = ['Nombre', 'FechaInicio', 'FechaFin', 'Costo', 'Acciones'];
 
-  cursos: Cursos[] = []
+  cursos: Cursos[] = [];
+
+  cursosSubscription?: Subscription;
+
   authUser: any;
 
-  constructor(private subjectsService: SubjectsService, public dialog: MatDialog, private authService: AuthService) {
-    this.subjectsService.getCursos().subscribe({
-      next: (cursos) => {
-        this.cursos = cursos;
-      },
-      error: () => {
-        Swal.fire({
-          icon: 'error',
-          title: 'Error',
-          text: 'Actualmente no se puede acceder a la base de datos.'
-        });
-      },
+  constructor(public dialog: MatDialog,
+      private authService: AuthService,
+      private store: Store) {
+        
+    this.cursosSubscription = this.store.select(selectSubjects).subscribe({
+      next: (subjects) => {
+        this.cursos = subjects;
+      }
     })
+    this.store.dispatch(SubjectsActions.loadSubjects())
+
   }
 
   ngOnInit(): void {
@@ -39,17 +43,7 @@ export class SubjectsComponent {
   onCreate(): void {
     this.dialog.open(SubjectFormComponent,{
       data: {view: false, edit: false}
-    }).afterClosed().subscribe({
-        next: (result) => {
-          if (result) {
-            this.subjectsService.addCurso(result).subscribe({
-              next: (cursos) => {
-                this.cursos = cursos;
-              },
-            });
-          }
-        }
-      });
+    })
   }
 
   onEdit(curso: Cursos){
@@ -58,16 +52,13 @@ export class SubjectsComponent {
     }).afterClosed().subscribe({
       next: (result) => {
         if(result){
-          this.subjectsService.updateCursos(curso.id, result).subscribe({
-            next: (cursos) => (this.cursos = cursos),
-          })
+          this.store.dispatch(SubjectsActions.modifySubjects({ id: curso.id, data: result}));
         }
       }
     })
   }
 
   onDelete(curso: Cursos) {
-    console.log("El id en component es: " + curso.id);
     Swal.fire({
       title: '¿Está seguro?',
       text: 'Esta acción no se puede revertir',
@@ -79,25 +70,7 @@ export class SubjectsComponent {
       cancelButtonText: 'Cancelar'
     }).then((result) => {
       if (result.isConfirmed) {
-        this.subjectsService.deleteSubjectByID(curso.id).subscribe({
-          next: (cursos) => {
-            this.cursos = cursos;
-            Swal.fire({
-              icon: 'success',
-              title: 'Borrado exitoso',
-              showConfirmButton: false,
-              timer: 1500
-            });
-          },
-          error: (error) => {
-            console.error('Error al borrar:', error);
-            Swal.fire({
-              icon: 'error',
-              title: 'Error',
-              text: 'Hubo un error al borrar el curso.'
-            });
-          }
-        });
+        this.store.dispatch(SubjectsActions.deleteSubjects({id: curso.id}));
       }
     });
   }
@@ -106,5 +79,9 @@ export class SubjectsComponent {
     this.dialog.open(SubjectFormComponent, {
       data: { view: true, edit: false, curso: cursos}
     })
+  }
+
+  ngOnDestroy(): void {
+      this.cursosSubscription?.unsubscribe();
   }
 }

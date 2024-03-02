@@ -17,7 +17,6 @@ export class AuthService {
     token: string = '';
 
     constructor(private router: Router, private studentService: StudentsService) { 
-        // Al inicializar el servicio, intenta recuperar el usuario autenticado desde el almacenamiento local
         const storedUser = localStorage.getItem('authUser');
         if (storedUser) {
             this.authUser = JSON.parse(storedUser);
@@ -31,7 +30,7 @@ export class AuthService {
                     if (usuario) {
                         this.authUser = usuario;
                         this.token = this.generarToken();
-                        localStorage.setItem('authUser', JSON.stringify(this.authUser)); // Guardar en el almacenamiento local
+                        localStorage.setItem('authUser', JSON.stringify(this.authUser));
                         localStorage.setItem('token', this.token);
                         this.router.navigate(['dashboard']);
                     } else {
@@ -47,7 +46,8 @@ export class AuthService {
 
     logout(): void{
         this.authUser = null;
-        localStorage.removeItem('authUser'); // Remover del almacenamiento local
+        this.token = "";
+        localStorage.removeItem('authUser'); 
         localStorage.removeItem('token');
         this.router.navigate(['auth','login']);
     }
@@ -69,6 +69,6 @@ export class AuthService {
 
     setAuthUser(usuario: Usuarios):void{
         this.authUser = usuario;
-        localStorage.setItem('authUser', JSON.stringify(this.authUser)); // Actualizar en el almacenamiento local
+        localStorage.setItem('authUser', JSON.stringify(this.authUser));
     }
 }

@@ -1,7 +1,7 @@
 {
   "users": [
     {
-      "Nombre": "Juanes",
+      "Nombre": "Juaness",
       "Apellido": "Perez",
       "Telefono": "1124251645",
       "Correo": "juan@example.com",
@@ -13,25 +13,11 @@
       "id": "c482"
     },
     {
-      "IDUsuario": 2,
-      "Nombre": "Maria",
-      "Apellido": "Gomez",
-      "Dni": "36587412",
-      "Telefono": "1123456789",
-      "Correo": "maria@example.com",
-      "Direccion": "Calle B, Ciudad Y",
-      "Usuario": "MariaG",
-      "Clave": "MariaG",
-      "Rol": "Estudiante",
-      "id": "2870"
-    },
-    {
-      "IDUsuario": 3,
       "Nombre": "Carlos",
       "Apellido": "Rodriguez",
-      "Dni": "19876543",
       "Telefono": "1123454321",
       "Correo": "carlos@example.com",
+      "Dni": "19876543",
       "Direccion": "Calle C, Ciudad Z",
       "Usuario": "CarlosR",
       "Clave": "CarlosR",
@@ -39,12 +25,11 @@
       "id": "0c9d"
     },
     {
-      "IDUsuario": 4,
       "Nombre": "Ana",
       "Apellido": "Lopez",
-      "Dni": "54321678",
       "Telefono": "1123549876",
       "Correo": "ana@example.com",
+      "Dni": "54321678",
       "Direccion": "Calle D, Ciudad W",
       "Usuario": "AnaL",
       "Clave": "AnaL",
@@ -52,12 +37,11 @@
       "id": "a453"
     },
     {
-      "IDUsuario": 5,
       "Nombre": "Luis",
       "Apellido": "Martinez",
-      "Dni": "87654321",
       "Telefono": "1123678901",
       "Correo": "luis@example.com",
+      "Dni": "87654321",
       "Direccion": "Calle E, Ciudad V",
       "Usuario": "LuisM",
       "Clave": "LuisM",
@@ -65,12 +49,11 @@
       "id": "4ad3"
     },
     {
-      "IDUsuario": 6,
       "Nombre": "Laura",
       "Apellido": "Fernandez",
-      "Dni": "65432187",
       "Telefono": "1123908765",
       "Correo": "laura@example.com",
+      "Dni": "65432187",
       "Direccion": "Calle F, Ciudad U",
       "Usuario": "LauraF",
       "Clave": "LauraF",
@@ -78,12 +61,11 @@
       "id": "7fec"
     },
     {
-      "IDUsuario": 7,
       "Nombre": "Gabriel",
       "Apellido": "Diaz",
-      "Dni": "12348765",
       "Telefono": "1123123456",
       "Correo": "gabriel@example.com",
+      "Dni": "12348765",
       "Direccion": "Calle G, Ciudad T",
       "Usuario": "GabrielD",
       "Clave": "GabrielD",
@@ -91,12 +73,11 @@
       "id": "3ad2"
     },
     {
-      "IDUsuario": 8,
       "Nombre": "Valeria",
       "Apellido": "Sanchez",
-      "Dni": "87651234",
       "Telefono": "1123345678",
       "Correo": "valeria@example.com",
+      "Dni": "87651234",
       "Direccion": "Calle H, Ciudad S",
       "Usuario": "ValeriaS",
       "Clave": "ValeriaS",
@@ -163,31 +144,19 @@
   ],
   "inscriptions": [
     {
-      "IDInscripcion": 1,
-      "IDCurso": 1,
-      "NombreCurso": "Angular - Virtual - Noche",
-      "IDAlumno": 1,
-      "NombreAlumno": "Juan Perez",
-      "Modalidad": "Virtual",
-      "Turno": "Noche",
-      "id": "6e48"
-    },
-    {
-      "IDInscripcion": 2,
-      "IDCurso": 1,
-      "NombreCurso": "Angular - Virtual - Noche",
-      "IDAlumno": 5,
-      "NombreAlumno": "Luis Martinez",
-      "Modalidad": "Virtual",
-      "Turno": "Noche",
-      "id": "5968"
-    },
-    {
       "NombreCurso": "Python introducciones",
-      "NombreAlumno": "Alejo Tarrio Omar",
+      "NombreAlumno": "Luis Martinez",
       "Modalidad": "Presencial",
       "Turno": "Mañana",
-      "id": "f480"
+      "id": "cb01"
+    },
+    {
+      "id": "3271",
+      "NombreCurso": "Angular - Virtual - Noche",
+      "NombreAlumno": "Juanes Perez",
+      "Modalidad": "Virtual",
+      "Turno": "Noche",
+      "IDCurso": 1
     }
   ]
 }

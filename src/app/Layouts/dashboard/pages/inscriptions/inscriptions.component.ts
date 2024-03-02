@@ -124,11 +124,10 @@ export class InscriptionsComponent {
             });
           },
           error: (error) => {
-            console.error('Error al borrar:', error);
             Swal.fire({
               icon: 'error',
               title: 'Error',
-              text: 'Hubo un error al borrar la inscripción.'
+              text: 'Hubo un error al borrar la inscripción: ' + error,
             });
           }
         });

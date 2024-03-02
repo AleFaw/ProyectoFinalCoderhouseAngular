@@ -18,6 +18,10 @@ import { MatSelectModule } from '@angular/material/select';
 import { SharedModule } from '../../../../shared/shared.module';
 import { InscriptionsService } from '../inscriptions/inscriptions.service';
 import { InscriptionsModule } from '../inscriptions/inscriptions.module';
+import { EffectsModule } from '@ngrx/effects';
+import { SubjectsEffects } from './store/subjects.effects';
+import { StoreModule } from '@ngrx/store';
+import { subjectsFeature } from './store/subjects.reducer';
 
 
 @NgModule({
@@ -39,7 +43,9 @@ import { InscriptionsModule } from '../inscriptions/inscriptions.module';
     MatDialogModule,
     MatSelectModule,
     SharedModule,
-    InscriptionsModule
+    InscriptionsModule,
+    StoreModule.forFeature(subjectsFeature),
+    EffectsModule.forFeature([SubjectsEffects]),
   ],
   providers: [
     SubjectsService,

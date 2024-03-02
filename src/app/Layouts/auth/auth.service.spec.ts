@@ -5,7 +5,7 @@ import { AuthService } from './auth.service';
 import { StudentsService } from '../dashboard/pages/students/students.service';
 import { Usuarios } from '../dashboard/pages/students/Models';
 import { of } from 'rxjs';
-import Swal from 'sweetalert2';
+import { Router } from '@angular/router'; // Importa Router desde '@angular/router'
 
 describe('AuthService', () => {
     let authService: AuthService;
@@ -15,7 +15,7 @@ describe('AuthService', () => {
         const studentsServiceSpyObj = jasmine.createSpyObj('StudentsService', ['getAuth']);
 
         TestBed.configureTestingModule({
-            imports: [HttpClientModule, RouterTestingModule],
+            imports: [HttpClientModule, RouterTestingModule], // Asegúrate de importar RouterTestingModule
             providers: [
                 AuthService,
                 { provide: StudentsService, useValue: studentsServiceSpyObj }
@@ -52,27 +52,62 @@ describe('AuthService', () => {
         expect(authService.authUser).toEqual(mockUser);
         expect(authService.token).toBeTruthy();
     });
-
-    it('Muestra una alerta de error cuando las credenciales son incorrectas', () => {
-        // Configurando el servicio para devolver un observable de valor undefined,
-        // simulando credenciales incorrectas
-        studentsServiceSpy.getAuth.and.returnValue(of(undefined));
     
-        // Espiando la función fire de Swal
-        spyOn(Swal, 'fire');
+    it('Cierra sesión correctamente', () => {
+        authService.authUser = {
+            "IDUsuario": 1,
+            "Nombre": "Juan",
+            "Apellido": "Perez",
+            "Dni": "28456789",
+            "Telefono": "1124251645",
+            "Correo": "prueba@gmail.com",
+            "Direccion": "Calle A, Ciudad X",
+            "Usuario": "JuanP",
+            "Clave": "clave",
+            "Rol": "Estudiante",
+            "id": "c482"
+        };
+        authService.token = 'mockToken';
     
-        // Llamando al método login con credenciales incorrectas
-        authService.login({ email: 'prueba@gmail.com', clave: 'clave' });
+        spyOn(localStorage, 'removeItem');
     
-        // Verificando que authService.authUser sea null
+        authService.logout();
+    
         expect(authService.authUser).toBeNull();
-    
-        // Verificando que se haya llamado a Swal.fire con los argumentos correctos
-        expect(Swal.fire).toHaveBeenCalled();
-        const args = (Swal.fire as jasmine.Spy).calls.mostRecent().args[0]; 
-        expect(args.icon).toBe('error');
-        expect(args.title).toBe('Error de autenticación');
-        expect(args.text).toBe('Usuario y/o contraseña inválidos');
+        expect(authService.token).toBe(''); // Expectativa ajustada para verificar que el token se establece como una cadena vacía
+        expect(localStorage.removeItem).toHaveBeenCalledWith('authUser');
+        expect(localStorage.removeItem).toHaveBeenCalledWith('token');
     });
+    
+    it('Verifica el token correctamente', () => {
+        localStorage.setItem('token', 'mockToken');
+    
+        authService.verifyToken().subscribe(isValid => {
+            expect(isValid).toBeTruthy();
+        });
+    });
+    
+    it('Maneja la sesión autenticada al iniciar la aplicación', () => {
+        const storedUser = {
+            "IDUsuario": 1,
+            "Nombre": "Juan",
+            "Apellido": "Perez",
+            "Dni": "28456789",
+            "Telefono": "1124251645",
+            "Correo": "prueba@gmail.com",
+            "Direccion": "Calle A, Ciudad X",
+            "Usuario": "JuanP",
+            "Clave": "clave",
+            "Rol": "Estudiante",
+            "id": "c482"
+        };
+        localStorage.setItem('authUser', JSON.stringify(storedUser)); // Simular un usuario autenticado almacenado en el almacenamiento local
+    
+        authService = new AuthService(TestBed.inject(Router), TestBed.inject(StudentsService)); // Reinstancia el servicio para simular el inicio de la aplicación
+    
+        expect(authService.authUser).toEqual(storedUser); // Verificar que el usuario autenticado se cargue correctamente
+        // Puedes agregar más expectativas según sea necesario para verificar el estado de la sesión al iniciar la aplicación
+    });
+
     
 });

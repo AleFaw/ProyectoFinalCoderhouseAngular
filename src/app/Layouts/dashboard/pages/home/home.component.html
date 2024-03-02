@@ -1,52 +1,113 @@
-<div fxLayout="column" fxLayoutAlign="center center" class="welcome-container">
-  <img src="../../../../../assets/img/Logo.ico" alt="Logo" class="logo">
-  <h1>Bienvenido a TecnoAula!</h1>
-  <p>Esperemos de todo corazón que disfrutes tus primeros pasos en nuestra plataforma!</p>
+<div *ngIf="authUser && authUser.Rol === 'Estudiante'">
+  <div fxLayout="column" fxLayoutAlign="center center" class="welcome-container">
+    <img src="../../../../../assets/img/Logo.ico" alt="Logo" class="logo">
+    <h1>Bienvenido a TecnoAula usuario!</h1>
+    <p>Esperemos de todo corazón que disfrutes tus primeros pasos en nuestra plataforma!</p>
 
 
-  <div class="titulo">
-    <div style="display: flex; align-items: center; justify-content: center; height: 100%;  background-color: rgb(25, 37, 162); height: 50px; width: 100%; border-radius: 15px;">
-      <div style="font-size: 36px; color: white;">Te contamos lo que podes hacer</div>
-    </div>
-  </div>
-
-  <mat-card class="example-card"style="margin-top:20px;">
-
-    <mat-card-content>
-      <div class="row" >
-        <div class="col-md-4">
-          <div class="row">
-            <h5>ABM (ALTA / BAJA y MODIFICACIÓN) DE USUARIOS</h5>
-          </div>
-          <div class="row">
-            <img class="img" (click)="openImageModal(1)" src="../../../../../assets/img/ABMUsuarios.png">
-            <p>Mediante nuestro sistema de ABM vas a poder visualizar, modificar, eliminar y agregar datos sobre tus:
-              usuarios, cursos e inscripciones, en todo momento, de manera rápida y sencilla!</p>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="row">
-            <h5>CONTROLADOR DE CURSOS POR ESTUDIANTE</h5>
-          </div>
-          <div class="row">
-            <img class="img" (click)="openImageModal(2)" src="../../../../../assets/img/userView.png">
-            <p>En el ABM de usuarios, si se selecciona el boton del ojo para ver los detalles de ese usuario, podras
-              visualizar de manera rapida y comoda toda la información sobre los cursos a los que esta inscripto, e
-              inclusive darlo de baja!</p>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="row">
-            <h5>CONTROLADOR DE ESTUDIANTES POR CURSOS</h5>
-          </div>
-          <div class="row">
-            <img class="img" (click)="openImageModal(3)" src="../../../../../assets/img/subjectView.png">
-            <p>En el ABM de cursos, si se selecciona el boton del ojo para ver los detalles de ese curso, podras
-              visualizar de manera rapida y comoda toda la información sobre los alumnos que estan inscriptos al curso,
-              e inclusive darlo de baja!</p>
-          </div>
-        </div>
+    <div class="titulo">
+      <div
+        style="display: flex; align-items: center; justify-content: center; height: 100%;  background-color: rgb(25, 37, 162); height: 50px; width: 100%; border-radius: 15px;">
+        <div style="font-size: 36px; color: white;">Te contamos lo que podes hacer</div>
       </div>
-    </mat-card-content>
-  </mat-card>
+    </div>
+
+    <mat-card class="example-card" style="margin-top:20px;">
+
+      <mat-card-content>
+        <div class="row">
+          <div class="col-md-4">
+            <div class="row" >
+              <h5 style="margin-bottom: 32px;">CONSULTA DE ESTUDIANTES </h5>
+            </div>
+            <div class="row">
+              <img class="img" (click)="openImageModal(4)" src="../../../../../assets/img/inscripcionesUser.png">
+              <p>Mediante nuestro sistema de visualización en tablas, tendras una manera simple y sencilla de visualizar usuarios, cursos e incluso inscripciones, 
+                adicionalmente tambien tenes la posibilidad de dar de alta y baja las inscripciones de los estudiantes en todo momento, de manera rápida y sencilla!</p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="row">
+              <h5>CONTROLADOR DE CURSOS POR ESTUDIANTE</h5>
+            </div>
+            <div class="row">
+              <img class="img" (click)="openImageModal(2)" src="../../../../../assets/img/userView.png">
+              <p>En la lista de estudiante, si se selecciona el boton del ojo para ver los detalles de ese usuario, podras
+                visualizar de manera rapida y comoda toda la información sobre los cursos a los que esta inscripto, e
+                inclusive darlo de baja!</p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="row">
+              <h5>CONTROLADOR DE ESTUDIANTES POR CURSOS</h5>
+            </div>
+            <div class="row">
+              <img class="img" (click)="openImageModal(3)" src="../../../../../assets/img/subjectView.png">
+              <p>En el ABM de cursos, si se selecciona el boton del ojo para ver los detalles de ese curso, podras
+                visualizar de manera rapida y comoda toda la información sobre los alumnos que estan inscriptos al
+                curso,
+                e inclusive darlo de baja!</p>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+
+<div *ngIf="authUser && authUser.Rol === 'Administrador'">
+  <div fxLayout="column" fxLayoutAlign="center center" class="welcome-container">
+    <img src="../../../../../assets/img/Logo.ico" alt="Logo" class="logo">
+    <h1>Bienvenido a TecnoAula administrador!</h1>
+    <p>Esperemos de todo corazón que disfrutes tus primeros pasos en nuestra plataforma!</p>
+
+
+    <div class="titulo">
+      <div
+        style="display: flex; align-items: center; justify-content: center; height: 100%;  background-color: rgb(25, 37, 162); height: 50px; width: 100%; border-radius: 15px;">
+        <div style="font-size: 36px; color: white;">Te contamos lo que podes hacer</div>
+      </div>
+    </div>
+
+    <mat-card class="example-card" style="margin-top:20px;">
+
+      <mat-card-content>
+        <div class="row">
+          <div class="col-md-4">
+            <div class="row">
+              <h5>ABM (ALTA / BAJA y MODIFICACIÓN) DE USUARIOS</h5>
+            </div>
+            <div class="row">
+              <img class="img" (click)="openImageModal(1)" src="../../../../../assets/img/ABMUsuarios.png">
+              <p>Mediante nuestro sistema de ABM vas a poder visualizar, modificar, eliminar y agregar datos sobre tus:
+                usuarios, cursos e inscripciones, en todo momento, de manera rápida y sencilla!</p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="row">
+              <h5>CONTROLADOR DE CURSOS POR ESTUDIANTE</h5>
+            </div>
+            <div class="row">
+              <img class="img" (click)="openImageModal(2)" src="../../../../../assets/img/userView.png">
+              <p>En el ABM de usuarios, si se selecciona el boton del ojo para ver los detalles de ese usuario, podras
+                visualizar de manera rapida y comoda toda la información sobre los cursos a los que esta inscripto, e
+                inclusive darlo de baja!</p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="row">
+              <h5>CONTROLADOR DE ESTUDIANTES POR CURSOS</h5>
+            </div>
+            <div class="row">
+              <img class="img" (click)="openImageModal(3)" src="../../../../../assets/img/subjectView.png">
+              <p>En el ABM de cursos, si se selecciona el boton del ojo para ver los detalles de ese curso, podras
+                visualizar de manera rapida y comoda toda la información sobre los alumnos que estan inscriptos al
+                curso,
+                e inclusive darlo de baja!</p>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
 </div>

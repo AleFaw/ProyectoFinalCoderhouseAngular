@@ -33,7 +33,6 @@ export class DashboardComponent {
       map(route => route.snapshot.data['title'])
     ).subscribe(title => {
       this.titulo = title;
-      console.log(this.titulo);
     });
     
   }

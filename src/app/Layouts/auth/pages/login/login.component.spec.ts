@@ -13,6 +13,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatIconModule } from '@angular/material/icon';
+import Swal from 'sweetalert2';
+import { of } from 'rxjs';
 
 describe('LoginComponent', () => {
 
@@ -58,4 +60,35 @@ describe('LoginComponent', () => {
         component.onSubmit();
         expect(spyOnMarkAllAsTouched).toHaveBeenCalled();
     })
+
+    it('Prueba de formulario válido con campos llenos', () => {
+        component.loginForm.patchValue({
+            email: 'test@example.com',
+            clave: 'password123',
+        });
+        expect(component.loginForm.valid).toBeTrue();
+    });
+    
+    it('debería inicializar el formulario de inicio de sesión con campos vacíos', () => {
+        const controlEmail = component.loginForm.get('email');
+        const controlClave = component.loginForm.get('clave');
+    
+        expect(controlEmail?.value).toBe('');
+        expect(controlClave?.value).toBe('');
+      });
+
+    it('Prueba de envío de formulario exitoso', () => {
+        const authService = TestBed.inject(AuthService);
+        const spyOnLogin = spyOn(authService, 'login');
+        component.loginForm.patchValue({
+            email: 'test@example.com',
+            clave: 'password123',
+        });
+        component.onSubmit();
+        expect(spyOnLogin).toHaveBeenCalledWith({ email: 'test@example.com', clave: 'password123' });
+    });
+    
+
+    
+    
 })

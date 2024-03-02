@@ -14,6 +14,6 @@ import { HomeRoutingModule } from './home-routing.module';
     MatCardModule,
     MatIconModule,
     HomeRoutingModule,
-  ]
+  ],
 })
 export class HomeModule { }

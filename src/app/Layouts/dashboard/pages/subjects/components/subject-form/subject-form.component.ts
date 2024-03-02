@@ -7,6 +7,8 @@ import { SubjectsService } from '../../subjects.service';
 import { InscriptionsService } from '../../../inscriptions/inscriptions.service';
 import { Inscripciones } from '../../../inscriptions/Models/index';
 import { AuthService } from '../../../../../auth/auth.service';
+import { Store } from '@ngrx/store';
+import { SubjectsActions } from '../../store/subjects.actions';
 
 @Component({
   selector: 'app-subject-form',
@@ -26,7 +28,8 @@ export class SubjectFormComponent {
     @Inject(MAT_DIALOG_DATA) private data: { curso: Cursos, view: boolean, edit: boolean },
     private subjectsService: SubjectsService,
     private inscriptionService: InscriptionsService,
-    private authService: AuthService) {
+    private authService: AuthService,
+    private store: Store) {
     this.viewMode = this.data.view;
     this.subjectForm = this.fb.group({
       Nombre: ['', [Validators.required, Validators.pattern('^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ -]+$')]], // Permitir letras, espacios y caracteres acentuados
@@ -41,7 +44,7 @@ export class SubjectFormComponent {
       Turno: ['', [Validators.required, Validators.pattern('^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ -]+$')]], // Permitir letras, espacios y caracteres acentuados
     });
 
-    console.log("Editar: " + this.data.edit + " Ver: " + this.data.view + "Informacion: " + this.data.curso);
+    
     if (this.data.edit) {
       this.subjectForm.patchValue(this.data.curso);
     }
@@ -70,6 +73,10 @@ export class SubjectFormComponent {
       this.markFormGroupTouched(this.subjectForm);
       this.showErrorMessage('Por favor, complete todos los campos correctamente.');
       return;
+    }else{
+      if (!this.data.edit && !this.data.view){
+        this.store.dispatch(SubjectsActions.createSubjects({data: this.subjectForm.value}));
+      }
     }
     this.dialogRef.close(this.subjectForm.value);
   }
@@ -90,8 +97,6 @@ export class SubjectFormComponent {
       }
     });
   }
-
-
 
   onDelete(data: Inscripciones) {
     Swal.fire({
@@ -116,18 +121,16 @@ export class SubjectFormComponent {
             });
           },
           error: (error) => {
-            console.error('Error al eliminar la inscripción:', error);
             Swal.fire({
               icon: 'error',
               title: 'Error',
-              text: 'Hubo un error al eliminar la inscripción.'
+              text: 'Hubo un error al eliminar la inscripción: ' + error,
             });
           }
         });
       }
     });
   }
-
 
   obtenerCursos(): void {
     this.subjectsService.getCursos().subscribe({
@@ -136,29 +139,27 @@ export class SubjectFormComponent {
         this.inscriptionService.getInscripciones().subscribe({
           next: (inscripciones: any[]) => {
             this.inscripciones = inscripciones;
-            console.log("Total de inscripciones: " + JSON.stringify(this.inscripciones));
 
             const cursoActual = cursos.find(curso => curso.IDCurso === this.data.curso.IDCurso);
             if (cursoActual) {
               this.subjectsService.comprobarAlumnos(cursoActual, inscripciones).subscribe({
                 next: (inscripcionesAlumno: any[]) => {
                   this.inscripcionesAlumno = inscripciones.filter(inscripcion => inscripcion.IDCurso === cursoActual.IDCurso);
-                  console.log("Las inscripciones son: " + JSON.stringify(this.inscripcionesAlumno));
                 },
                 error: (error) => {
-                  console.error('Error al comprobar cursos del alumno:', error);
+                  alert(error);
                 }
               });
               
             }
           },
           error: (error) => {
-            console.error('Error al obtener las inscripciones:', error);
+            alert(error);
           }
         });
       },
       error: (error) => {
-        console.error('Error al obtener cursos:', error);
+        alert(error);
       }
     });
   }
